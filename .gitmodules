@@ -1,0 +1,3 @@
+[submodule "CareerCloud.UnitTests.Assignment1"]
+	path = CareerCloud.UnitTests.Assignment1
+	url = https://github.com/johnhinz/CareerCloud.UnitTests.Assignment1.git

@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>CareerCloudPocoCSharp</Title>
+      <Author>Addy</Author>
+      <Description>Creates the mapped class for a table in the JOB_PORTAL database</Description>
+      <Shortcut>careercloud</Shortcut>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.ComponentModel.DataAnnotations</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.ComponentModel.DataAnnotations.Schema</Namespace>
+        </Import>
+      </Imports>
+
+      <Declarations>
+        <Literal>
+          <ID>MyDBTableName</ID>
+          <ToolTip>Replace with the actual table name in JOB PORTAL DB</ToolTip>
+          <Default>"Table_"</Default>
+        </Literal>
+        <Literal>
+          <ID>MyTablePocoName</ID>
+          <ToolTip>Replace with the table poco name format as required by John</ToolTip>
+          <Default>MyTablePoco</Default>
+        </Literal>
+
+        <Literal>
+          <ID>MyDBColumnName1</ID>
+          <ToolTip>Replace with the actual db column name in the table in JOB PORTAL DB</ToolTip>
+          <Default>"MyDBColumnName"</Default>
+        </Literal>
+        <Literal>
+          <ID>MyDBColumnName2</ID>
+          <ToolTip>Replace with the actual db column name in the table in JOB PORTAL DB</ToolTip>
+          <Default>"MyDBColumnName"</Default>
+        </Literal>
+        <Literal>
+          <ID>MyDBColumnName3</ID>
+          <ToolTip>Replace with the actual db column name in the table in JOB PORTAL DB</ToolTip>
+          <Default>"MyDBColumnName"</Default>
+        </Literal>
+        <Literal>
+          <ID>MyDBColumnName4</ID>
+          <ToolTip>Replace with the actual db column name in the table in JOB PORTAL DB</ToolTip>
+          <Default>"MyDBColumnName"</Default>
+        </Literal>
+        <Literal>
+          <ID>MyDBColumnName5</ID>
+          <ToolTip>Replace with the actual db column name in the table in JOB PORTAL DB</ToolTip>
+          <Default>"MyDBColumnName"</Default>
+        </Literal>
+        <Literal>
+          <ID>MyDBColumnName6</ID>
+          <ToolTip>Replace with the actual db column name in the table in JOB PORTAL DB</ToolTip>
+          <Default>"MyDBColumnName"</Default>
+        </Literal>
+        <Literal>
+          <ID>MyDBColumnName7</ID>
+          <ToolTip>Replace with the actual db column name in the table in JOB PORTAL DB</ToolTip>
+          <Default>"MyDBColumnName"</Default>
+        </Literal>
+        <Literal>
+          <ID>MyDBColumnName8</ID>
+          <ToolTip>Replace with the actual db column name in the table in JOB PORTAL DB</ToolTip>
+          <Default>"MyDBColumnName"</Default>
+        </Literal>
+        <Literal>
+          <ID>MyDBColumnName9</ID>
+          <ToolTip>Replace with the actual db column name in the table in JOB PORTAL DB</ToolTip>
+          <Default>"MyDBColumnName"</Default>
+        </Literal>
+        
+        <Literal>
+          <ID>MyTableColumnName1</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName1</Default>
+        </Literal>
+        <Literal>
+          <ID>MyTableColumnName2</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName2</Default>
+        </Literal>
+        <Literal>
+          <ID>MyTableColumnName3</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName3</Default>
+        </Literal>
+        <Literal>
+          <ID>MyTableColumnName4</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName4</Default>
+        </Literal>
+        <Literal>
+          <ID>MyTableColumnName5</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName5</Default>
+        </Literal>
+        <Literal>
+          <ID>MyTableColumnName6</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName6</Default>
+        </Literal>
+        <Literal>
+          <ID>MyTableColumnName7</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName7</Default>
+        </Literal>
+        <Literal>
+          <ID>MyTableColumnName8</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName8</Default>
+        </Literal>
+        <Literal>
+          <ID>MyTableColumnName9</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName9</Default>
+        </Literal>
+        <!--<Literal>
+          <ID>MyTableColumnName9</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName9</Default>
+        </Literal>
+        <Literal>
+          <ID>MyTableColumnName10</ID>
+          <ToolTip>Replace with the table column format as required by John</ToolTip>
+          <Default>MyTableColumnName10</Default>
+        </Literal>-->
+      </Declarations>
+      
+      <Code Language="CSharp">
+        <![CDATA[
+        namespace CareerCloud.Pocos
+        {
+          [Table($MyDBTableName$)]
+          public class $MyTablePocoName$ : IPoco
+          {   
+              [Key] //guid.
+              [Column("$MyTableColumnName1$")]
+              public Guid $MyTableColumnName1$ { get; set; }
+
+              [Column("$MyTableColumnName2$")] //datetime or datetime2.
+              public DateTime $MyTableColumnName2$ { get; set; }
+
+              [Column("$MyTableColumnName3$")] //decimal.
+              public decimal $MyTableColumnName3$ { get; set; }
+
+              [Column("$MyTableColumnName4$")] //int.
+              public int $MyTableColumnName4$ { get; set; }
+
+              [Column("$MyTableColumnName5$")] //char or nvarchar or varchar.
+              public string $MyTableColumnName5$ { get; set; }
+
+              [Column("$MyTableColumnName6$")] //smallint.
+              public short $MyTableColumnName6$ { get; set; }
+
+              [Column("$MyTableColumnName7$")] //timestamp.
+              public byte[] $MyTableColumnName7$ { get; set; }
+            
+              [Column("$MyTableColumnName8$")] //tinyint.
+              public byte $MyTableColumnName8$ { get; set; }
+        
+              [Column("$MyTableColumnName9$")] //bit.
+              public bool $MyTableColumnName9$ { get; set; }
+          }
+        }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
