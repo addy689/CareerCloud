@@ -6,7 +6,7 @@
       <Title>CareerCloudPocoCSharp</Title>
       <Author>Addy</Author>
       <Description>Creates the mapped class for a table in the JOB_PORTAL database</Description>
-      <Shortcut>careercloud</Shortcut>
+      <Shortcut>careercloudpoco</Shortcut>
     </Header>
     <Snippet>
       <Imports>
@@ -148,28 +148,28 @@
               public Guid $MyTableColumnName1$ { get; set; }
 
               [Column("$MyTableColumnName2$")] //datetime or datetime2.
-              public DateTime $MyTableColumnName2$ { get; set; }
+              public DateTime? $MyTableColumnName2$ { get; set; }
 
               [Column("$MyTableColumnName3$")] //decimal.
-              public decimal $MyTableColumnName3$ { get; set; }
+              public decimal? $MyTableColumnName3$ { get; set; }
 
               [Column("$MyTableColumnName4$")] //int.
-              public int $MyTableColumnName4$ { get; set; }
+              public int? $MyTableColumnName4$ { get; set; }
 
               [Column("$MyTableColumnName5$")] //char or nvarchar or varchar.
               public string $MyTableColumnName5$ { get; set; }
 
               [Column("$MyTableColumnName6$")] //smallint.
-              public short $MyTableColumnName6$ { get; set; }
+              public short? $MyTableColumnName6$ { get; set; }
 
               [Column("$MyTableColumnName7$")] //timestamp.
               public byte[] $MyTableColumnName7$ { get; set; }
             
               [Column("$MyTableColumnName8$")] //tinyint.
-              public byte $MyTableColumnName8$ { get; set; }
+              public byte? $MyTableColumnName8$ { get; set; }
         
               [Column("$MyTableColumnName9$")] //bit.
-              public bool $MyTableColumnName9$ { get; set; }
+              public bool? $MyTableColumnName9$ { get; set; }
           }
         }]]>
       </Code>
