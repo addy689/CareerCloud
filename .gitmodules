@@ -1,7 +1,3 @@
 [submodule "CareerCloud.UnitTests.Assignment1"]
 	path = CareerCloud.UnitTests.Assignment1
 	url = https://github.com/johnhinz/CareerCloud.UnitTests.Assignment1.git
-[submodule "CareerCloud.UnitTests.Assignment2"]
-	path = CareerCloud.UnitTests.Assignment2
-	url = https://github.com/johnhinz/CareerCloud.UnitTests.Assignment2.git
-	branch = master
