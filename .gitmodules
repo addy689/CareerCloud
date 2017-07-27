@@ -5,3 +5,6 @@
 	path = CareerCloud.UnitTests.Assignment2
 	url = https://github.com/addy689/CareerCloud.UnitTests.Assignment2.git
 	branch = master
+[submodule "CareerCloud.UnitTests.Assignment3"]
+	path = CareerCloud.UnitTests.Assignment3
+	url = https://github.com/addy689/CareerCloud.UnitTests.Assignment3.git
