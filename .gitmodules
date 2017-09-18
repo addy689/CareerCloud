@@ -8,3 +8,6 @@
 [submodule "CareerCloud.UnitTests.Assignment3"]
 	path = CareerCloud.UnitTests.Assignment3
 	url = https://github.com/addy689/CareerCloud.UnitTests.Assignment3.git
+[submodule "CareerCloud.UnitTests.Assignment4"]
+	path = CareerCloud.UnitTests.Assignment4
+	url = https://github.com/johnhinz/CareerCloud.UnitTests.Assignment4.git
