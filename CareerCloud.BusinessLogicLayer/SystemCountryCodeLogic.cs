@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CareerCloud.DataAccessLayer;
+using System.Linq;
 using CareerCloud.Pocos;
 
 namespace CareerCloud.BusinessLogicLayer
@@ -10,12 +11,24 @@ namespace CareerCloud.BusinessLogicLayer
         protected IDataRepository<SystemCountryCodePoco> _repository;
 
         public SystemCountryCodeLogic(IDataRepository<SystemCountryCodePoco> repository)
-        { }
+        {
+            _repository = repository;
+        }
 
         public void Add(SystemCountryCodePoco[] pocos)
         {
             Verify(pocos);
             _repository.Add(pocos);
+        }
+
+        public virtual SystemCountryCodePoco Get(string id)
+        {
+            return _repository.GetSingle(c => c.Code == id);
+        }
+
+        public virtual List<SystemCountryCodePoco> GetAll()
+        {
+            return _repository.GetAll().ToList();
         }
 
         public void Update(SystemCountryCodePoco[] pocos)
@@ -39,6 +52,11 @@ namespace CareerCloud.BusinessLogicLayer
 
             if (validationErrors.Count > 0)
                 throw new AggregateException(validationErrors);
+        }
+
+        public void Delete(SystemCountryCodePoco[] pocos)
+        {
+            _repository.Remove(pocos);
         }
     }
 }
