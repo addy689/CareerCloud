@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Configuration;
+using System.Web.Configuration;
 
 namespace CareerCloud.EntityFrameworkDataAccess
 {
     public class CareerCloudContext : DbContext
     {
-        public CareerCloudContext(bool createProxy = true) : base(ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString)
+        public CareerCloudContext(bool createProxy = true) : base(WebConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString)
         {
             this.Database.Log = t => Debug.WriteLine(t);
             Configuration.ProxyCreationEnabled = createProxy;
