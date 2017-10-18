@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CareerCloud.UI.MVC.Models.ApplicantJobApplicationVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Jobs Applied</h2>
+<h4>Applicant: @ViewBag.ApplicantName</h4>
+<br />
+<p>
+    @Html.ActionLink("+ New Job Search", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Company)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationDate)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationDate)
+        </td>
+
+        <td>
+            @Html.ActionLink("Job Details", "Details", "CompanyJobDescription", new { id = item.JobId }, null)
+        </td>
+    </tr>
+    }
+
+</table>
+
+<p>
+    @Html.ActionLink("Back to list of Applicants", "Index", "Applicant", null, null)
+</p>

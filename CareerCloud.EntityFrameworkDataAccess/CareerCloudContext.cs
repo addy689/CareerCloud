@@ -13,7 +13,10 @@ namespace CareerCloud.EntityFrameworkDataAccess
 {
     public class CareerCloudContext : DbContext
     {
-        public CareerCloudContext(bool createProxy = true) : base(WebConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString)
+        public CareerCloudContext() : this(false)
+        {}
+
+        public CareerCloudContext(bool createProxy = true) : base(ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString)
         {
             this.Database.Log = t => Debug.WriteLine(t);
             Configuration.ProxyCreationEnabled = createProxy;
@@ -124,6 +127,7 @@ namespace CareerCloud.EntityFrameworkDataAccess
                         .WithRequired(e => e.ApplicantProfiles)
                         .HasForeignKey(e => e.Applicant);
             #endregion
+                        
         }
 
         public DbSet<ApplicantEducationPoco> ApplicantEducation { get; set; }

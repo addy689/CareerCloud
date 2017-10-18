@@ -35,5 +35,10 @@ namespace CareerCloud.BusinessLogicLayer
             if (validationErrors.Count > 0)
                 throw new AggregateException(validationErrors);
         }
+
+        //public List<ApplicantJobApplicationPoco> GetWithJobDescriptions()
+        //{
+        //   _repository 
+        //}
     }
 }

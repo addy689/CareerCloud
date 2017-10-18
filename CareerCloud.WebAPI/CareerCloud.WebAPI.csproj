@@ -101,25 +101,25 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ApplicantEducationController.cs" />
-    <Compile Include="Controllers\ApplicantJobApplicationController.cs" />
-    <Compile Include="Controllers\ApplicantProfileController.cs" />
-    <Compile Include="Controllers\ApplicantResumeController.cs" />
-    <Compile Include="Controllers\ApplicantSkillController.cs" />
-    <Compile Include="Controllers\ApplicantWorkHistoryController.cs" />
-    <Compile Include="Controllers\CompanyDescriptionController.cs" />
-    <Compile Include="Controllers\CompanyJobController.cs" />
-    <Compile Include="Controllers\CompanyJobDescriptionController.cs" />
-    <Compile Include="Controllers\CompanyJobEducationController.cs" />
-    <Compile Include="Controllers\CompanyJobSkillController.cs" />
-    <Compile Include="Controllers\CompanyLocationController.cs" />
-    <Compile Include="Controllers\CompanyProfileController.cs" />
-    <Compile Include="Controllers\SecurityLoginController.cs" />
-    <Compile Include="Controllers\SecurityLoginsLogController.cs" />
-    <Compile Include="Controllers\SecurityLoginsRoleController.cs" />
-    <Compile Include="Controllers\SecurityRoleController.cs" />
-    <Compile Include="Controllers\SystemCountryCodeController.cs" />
-    <Compile Include="Controllers\SystemLanguageCodeController.cs" />
+    <Compile Include="Controllers\ApplicantEducationApiController.cs" />
+    <Compile Include="Controllers\ApplicantJobApplicationApiController.cs" />
+    <Compile Include="Controllers\ApplicantProfileApiController.cs" />
+    <Compile Include="Controllers\ApplicantResumeApiController.cs" />
+    <Compile Include="Controllers\ApplicantSkillApiController.cs" />
+    <Compile Include="Controllers\ApplicantWorkHistoryApiController.cs" />
+    <Compile Include="Controllers\CompanyDescriptionApiController.cs" />
+    <Compile Include="Controllers\CompanyJobApiController.cs" />
+    <Compile Include="Controllers\CompanyJobDescriptionApiController.cs" />
+    <Compile Include="Controllers\CompanyJobEducationApiController.cs" />
+    <Compile Include="Controllers\CompanyJobSkillApiController.cs" />
+    <Compile Include="Controllers\CompanyLocationApiController.cs" />
+    <Compile Include="Controllers\CompanyProfileApiController.cs" />
+    <Compile Include="Controllers\SecurityLoginApiController.cs" />
+    <Compile Include="Controllers\SecurityLoginsLogApiController.cs" />
+    <Compile Include="Controllers\SecurityLoginsRoleApiController.cs" />
+    <Compile Include="Controllers\SecurityRoleApiController.cs" />
+    <Compile Include="Controllers\SystemCountryCodeApiController.cs" />
+    <Compile Include="Controllers\SystemLanguageCodeApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 
@@ -21,14 +22,19 @@ namespace CareerCloud.BusinessLogicLayer
             return;
         }
 
-        public virtual TPoco Get(Guid id)
+        public virtual TPoco Get(Guid id, params Expression<Func<TPoco, object>>[] navigationProperties)
         {
-            return _repository.GetSingle(c => c.Id == id);
+            return _repository.GetSingle(c => c.Id == id, navigationProperties);
         }
 
-        public virtual List<TPoco> GetAll()
+        public virtual List<TPoco> GetAll(params Expression<Func<TPoco, object>>[] navigationProperties)
         {
-            return _repository.GetAll().ToList();
+            return _repository.GetAll(navigationProperties).ToList();
+        }
+
+        public virtual List<TPoco> GetList(Func<TPoco, bool> where, params Expression<Func<TPoco, object>>[] navigationProperties)
+        {
+            return _repository.GetList(where, navigationProperties).ToList();
         }
 
         public virtual void Add(TPoco[] pocos)
