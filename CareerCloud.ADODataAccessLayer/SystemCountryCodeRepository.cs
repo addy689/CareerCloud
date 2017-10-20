@@ -12,7 +12,7 @@ namespace CareerCloud.ADODataAccessLayer
     {
         public void Add(params SystemCountryCodePoco[] items)
         {
-            using (SqlConnection conn = new SqlConnection(@"Data Source=ADDY-PC\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
+            using (SqlConnection conn = new SqlConnection(@"Data Source=CETCOMP31\DAREDEVIL;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
             {
                 conn.Open();
 
@@ -50,7 +50,7 @@ namespace CareerCloud.ADODataAccessLayer
         {
             SystemCountryCodePoco[] result = new SystemCountryCodePoco[50];
 
-            using (SqlConnection conn = new SqlConnection(@"Data Source=ADDY-PC\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
+            using (SqlConnection conn = new SqlConnection(@"Data Source=CETCOMP31\DAREDEVIL;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
             {
                 conn.Open();
 
@@ -91,7 +91,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params SystemCountryCodePoco[] items)
         {
-            using (SqlConnection conn = new SqlConnection(@"Data Source=ADDY-PC\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
+            using (SqlConnection conn = new SqlConnection(@"Data Source=CETCOMP31\DAREDEVIL;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
             {
                 conn.Open();
 
@@ -113,7 +113,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params SystemCountryCodePoco[] items)
         {
-            using (SqlConnection conn = new SqlConnection(@"Data Source=ADDY-PC\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
+            using (SqlConnection conn = new SqlConnection(@"Data Source=CETCOMP31\DAREDEVIL;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
             {
                 conn.Open();
 

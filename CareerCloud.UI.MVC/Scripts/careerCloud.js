@@ -77,10 +77,8 @@ function onAddItem(e) {
                     </td> \
                 </tr>';
     }
-
-    console.log(newRowHtmlStr);
     var newRow = $.parseHTML(newRowHtmlStr);
-    console.log(newRow);
+    
     var tableElem = $(e.target).parentsUntil('div.form-group').filter('div').children('table.dynamic-data-table');
     tableElem.append(newRow);
 }
@@ -89,23 +87,36 @@ function onAddItem(e) {
 function convertToFormData(e) {
     console.log('Convert to form data');
 
-    $(".dynamic-data-table").each(function () {
+    //ready job skills inputs for submission
+    $(e.target).find("#jobSkills table.dynamic-data-table").each(function () {
 
         var rowsToModify = $(this).find("tr.dynamic-row .input1").each(function (index) {
-            $(this).attr("name", "skills[" + index + "].Skill");
+            $(this).attr("name", "JobSkills[" + index + "].SkillName");
         });
 
         rowsToModify = $(this).find("tr.dynamic-row .input2").each(function (index) {
-            $(this).attr("name", "skills[" + index + "].SelectedSkillLevel");
+            $(this).attr("name", "JobSkills[" + index + "].SelectedSkillLevel");
         });
 
         rowsToModify = $(this).find("tr.dynamic-row .input3").each(function (index) {
-            $(this).attr("name", "skills[" + index + "].SelectedImportance");
+            $(this).attr("name", "JobSkills[" + index + "].SelectedImportance");
         });
 
     });
 
-    return true;
+    //ready job education inputs for submission
+    $(e.target).find("#jobEducation table.dynamic-data-table").each(function () {
+
+        var rowsToModify = $(this).find("tr.dynamic-row .input1").each(function (index) {
+            $(this).attr("name", "JobEducation[" + index + "].Major");
+        });
+
+        rowsToModify = $(this).find("tr.dynamic-row .input2").each(function (index) {
+            $(this).attr("name", "JobEducation[" + index + "].SelectedImportance");
+        });
+
+    });
+    
 }
 
 /* SECTION END: For manipulating elements in Partial Views 

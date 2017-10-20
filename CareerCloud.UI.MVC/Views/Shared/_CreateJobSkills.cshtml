@@ -1,0 +1,22 @@
+﻿@using CareerCloud.UI.MVC.Models.CreateJob
+@model IEnumerable<JobSkillVM>
+
+
+<div id="jobSkills" class="form-group">
+    <h4>Required Skills</h4>
+
+    <div class="col-md-6">
+        <table class="table dynamic-data-table">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().SkillName)</th>
+                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().SelectedSkillLevel)</th>
+                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().SelectedImportance)</th>
+                <th></th>
+            </tr>
+
+        </table>
+        <p>
+            <a class="no-link" id="addEntryToTable" href="#">+ Add Skill</a>
+        </p>
+    </div>
+</div>

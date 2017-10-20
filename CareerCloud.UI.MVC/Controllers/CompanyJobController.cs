@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 using CareerCloud.UI.MVC.Models;
+using CareerCloud.UI.MVC.Models.CreateJob;
 
 namespace CareerCloud.UI.MVC.Controllers
 {
@@ -27,7 +28,7 @@ namespace CareerCloud.UI.MVC.Controllers
 
             string requestUri = GetApiUriString($"company/v1/job?companyId={companyId}");
             var response = Client.GetAsync(requestUri).Result;
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 List<CompanyJobVM> viewModel = new List<CompanyJobVM>();
 
@@ -64,6 +65,7 @@ namespace CareerCloud.UI.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             CompanyJobPoco companyJobPoco = db.CompanyJob.Find(id);
             if (companyJobPoco == null)
             {
@@ -75,29 +77,96 @@ namespace CareerCloud.UI.MVC.Controllers
         // GET: CompanyJob/Create
         public ActionResult Create(Guid? companyId)
         {
-            ViewBag.CompanyName = "Hello";
-            ViewBag.CompanyId = companyId;
+            if (companyId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-            return View();
+            var response = Client.GetAsync(GetApiUriString($"company/v1/profile/{companyId}")).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                ViewBag.CompanyName = response.Content.ReadAsAsync<CompanyProfilePoco>().Result
+                                            .CompanyDescriptions.Where(cd => cd.LanguageId.Trim() == "EN")
+                                            .FirstOrDefault()
+                                            .CompanyName;
+
+                ViewBag.CompanyId = companyId;
+
+                return View();
+            }
+
+            return ErrorView(response);
         }
 
         // POST: CompanyJob/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Company,ProfileCreated,IsInactive,IsCompanyHidden,TimeStamp")] CompanyJobPoco companyJobPoco)
+        public ActionResult Create([Bind(Include = "JobName,JobDescription,IsInactive,IsCompanyHidden,JobSkills,JobEducation,Company")] CompanyCreateJobVM companyCreateJobVM)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(companyCreateJobVM);
+
+            bool isCreateSuccess = true;
+
+            //Create new Job info
+            CompanyJobPoco jobPoco = new CompanyJobPoco
             {
-                companyJobPoco.Id = Guid.NewGuid();
-                db.CompanyJob.Add(companyJobPoco);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Id = Guid.NewGuid(),
+                ProfileCreated = DateTime.Now,
+                Company = companyCreateJobVM.Company,
+                IsInactive = companyCreateJobVM.IsInactive,
+                IsCompanyHidden = companyCreateJobVM.IsCompanyHidden,
+            };
+            isCreateSuccess &= PostToServer(new CompanyJobPoco[] { jobPoco }, "company/v1/job").IsSuccessStatusCode;
+
+            //Create Job Description info
+            CompanyJobDescriptionPoco descPoco = new CompanyJobDescriptionPoco
+            {
+                Id = Guid.NewGuid(),
+                Job = jobPoco.Id,
+                JobName = companyCreateJobVM.JobName,
+                JobDescriptions = companyCreateJobVM.JobDescription
+            };
+            isCreateSuccess &= PostToServer(new CompanyJobDescriptionPoco[] { descPoco }, "company/v1/jobdescription").IsSuccessStatusCode;
+
+            //Create Job Skills info
+            List<CompanyJobSkillPoco> skillPocos = new List<CompanyJobSkillPoco>();
+            foreach(var s in companyCreateJobVM.JobSkills)
+            {
+                skillPocos.Add(new CompanyJobSkillPoco
+                {
+                    Id = Guid.NewGuid(),
+                    Job = jobPoco.Id,
+                    Skill = s.SkillName,
+                    SkillLevel = s.SelectedSkillLevel,
+                    Importance = int.Parse(s.SelectedImportance)
+                });
+            }
+            isCreateSuccess &= PostToServer(skillPocos.ToArray(), "company/v1/jobskill").IsSuccessStatusCode;
+
+            //Create Job Education info
+            List<CompanyJobEducationPoco> educationPocos = new List<CompanyJobEducationPoco>();
+            foreach (var e in companyCreateJobVM.JobEducation)
+            {
+                educationPocos.Add(new CompanyJobEducationPoco
+                {
+                    Id = Guid.NewGuid(),
+                    Job = jobPoco.Id,
+                    Major = e.Major,
+                    Importance = short.Parse(e.SelectedImportance)
+                });
+            }
+            isCreateSuccess &= PostToServer(educationPocos.ToArray(), "company/v1/jobeducation").IsSuccessStatusCode;
+
+            
+            //Finally, check if the complete Job Creation process was successful
+            if (isCreateSuccess)
+            {
+                return RedirectToAction("Index", new { companyId = companyCreateJobVM.Company });
             }
 
-            ViewBag.Company = new SelectList(db.CompanyProfile, "Id", "CompanyWebsite", companyJobPoco.Company);
-            return View(companyJobPoco);
+            return View("Error");
         }
 
         // GET: CompanyJob/Edit/5

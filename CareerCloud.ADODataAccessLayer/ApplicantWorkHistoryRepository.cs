@@ -12,7 +12,7 @@ namespace CareerCloud.ADODataAccessLayer
     {
         public void Add(params ApplicantWorkHistoryPoco[] items)
         {
-            using (SqlConnection conn = new SqlConnection(@"Data Source=ADDY-PC\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
+            using (SqlConnection conn = new SqlConnection(@"Data Source=CETCOMP31\DAREDEVIL;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
             {
                 conn.Open();
 
@@ -77,7 +77,7 @@ namespace CareerCloud.ADODataAccessLayer
         {
             ApplicantWorkHistoryPoco[] result = new ApplicantWorkHistoryPoco[250];
 
-            using (SqlConnection conn = new SqlConnection(@"Data Source=ADDY-PC\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
+            using (SqlConnection conn = new SqlConnection(@"Data Source=CETCOMP31\DAREDEVIL;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
             {
                 conn.Open();
 
@@ -141,7 +141,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params ApplicantWorkHistoryPoco[] items)
         {
-            using (SqlConnection conn = new SqlConnection(@"Data Source=ADDY-PC\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
+            using (SqlConnection conn = new SqlConnection(@"Data Source=CETCOMP31\DAREDEVIL;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
             {
                 conn.Open();
 
@@ -163,7 +163,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params ApplicantWorkHistoryPoco[] items)
         {
-            using (SqlConnection conn = new SqlConnection(@"Data Source=ADDY-PC\HUMBERBRIDGING;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
+            using (SqlConnection conn = new SqlConnection(@"Data Source=CETCOMP31\DAREDEVIL;Initial Catalog=JOB_PORTAL_DB;Integrated Security=True"))
             {
                 conn.Open();
 

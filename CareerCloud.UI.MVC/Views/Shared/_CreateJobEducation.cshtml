@@ -1,4 +1,5 @@
-﻿@model CareerCloud.UI.MVC.Models.CreateJob.JobEducationVM
+﻿@using CareerCloud.UI.MVC.Models.CreateJob
+@model IEnumerable<JobEducationVM>
 
 <div id="jobEducation" class="form-group">
     <h4>Required Education</h4>
@@ -6,8 +7,8 @@
     <div class="col-md-4">
         <table class="table dynamic-data-table">
             <tr>
-                <th>@Html.DisplayNameFor(model => model.Major)</th>
-                <th>@Html.DisplayNameFor(model => model.SelectedImportance)</th>
+                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Major)</th>
+                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().SelectedImportance)</th>
                 <th></th>
             </tr>
 

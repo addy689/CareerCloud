@@ -4,8 +4,9 @@ namespace CareerCloud.UI.MVC.Models.CreateJob
 {
     public class JobSkillVM
     {
-        public string Skill { get; set; }
-        [Display(Name = "SkillLevel")]
+        [Display(Name = "Skill")]
+        public string SkillName { get; set; }
+        [Display(Name = "Skill Level")]
         public string SelectedSkillLevel { get; set; }
 
         [Display(Name = "Importance")]

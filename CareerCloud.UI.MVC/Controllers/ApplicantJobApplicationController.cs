@@ -87,32 +87,19 @@ namespace CareerCloud.UI.MVC.Controllers
         [HttpPost]
         public ActionResult Create([Bind(Include = "Applicant,Job")] ApplicantJobApplicationPoco applicantJobApplicationPoco)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(applicantJobApplicationPoco);
+
+            applicantJobApplicationPoco.Id = Guid.NewGuid();
+            applicantJobApplicationPoco.ApplicationDate = DateTime.Now;
+
+            //Create new job application
+            var response = PostToServer(new ApplicantJobApplicationPoco[] { applicantJobApplicationPoco }, "applicant/v1/jobapplication");
+            if (response.IsSuccessStatusCode)
             {
-                applicantJobApplicationPoco.Id = Guid.NewGuid();
-                applicantJobApplicationPoco.ApplicationDate = DateTime.Now;
-
-                //Prepare data to POST to WebAPI
-                string serialized = JsonConvert.SerializeObject(new ApplicantJobApplicationPoco[] { applicantJobApplicationPoco });
-                var inputMessage = new HttpRequestMessage
-                {
-                    Content = new StringContent(serialized, Encoding.UTF8, "application/json")
-                };
-                inputMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    
-                //Now POST data
-                string requestUri = GetApiUriString("applicant/v1/jobapplication");
-                var response = Client.PostAsync(requestUri, inputMessage.Content).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("Index", new { applicantId = applicantJobApplicationPoco.Applicant });
-                }
-
-                return ErrorView(response);
+                return RedirectToAction("Index", new { applicantId = applicantJobApplicationPoco.Applicant });
             }
-            //ViewBag.Applicant = new SelectList(db.ApplicantProfile, "Id", "Currency", applicantJobApplicationPoco.Applicant);
-            //ViewBag.Job = new SelectList(db.CompanyJob, "Id", "Id", applicantJobApplicationPoco.Job);
-            //return View(applicantJobApplicationPoco);
+
             return View("Error");
         }
 

@@ -5,6 +5,10 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using CareerCloud.UI.MVC.Helpers;
+using Newtonsoft.Json;
+using System.Text;
+using System.Net.Http.Headers;
+using CareerCloud.Pocos;
 
 namespace CareerCloud.UI.MVC.Controllers
 {
@@ -34,6 +38,29 @@ namespace CareerCloud.UI.MVC.Controllers
         {
             ModelState.AddModelError("Model", response.ReasonPhrase);
             return View("Error");
+        }
+
+        protected HttpResponseMessage PostToServer<TPoco>(TPoco[] pocos, string apiUriPath)
+            where TPoco : IPoco
+        {
+            //Prepare data to POST to WebAPI
+            string serialized = JsonConvert.SerializeObject(pocos);
+            var inputMessage = new HttpRequestMessage
+            {
+                Content = new StringContent(serialized, Encoding.UTF8, "application/json")
+            };
+            inputMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            //Now POST the data
+            string requestUri = GetApiUriString(apiUriPath);
+            var response = Client.PostAsync(requestUri, inputMessage.Content).Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                AddModelErrors(response);
+            }
+
+            return response;
         }
     }
 }

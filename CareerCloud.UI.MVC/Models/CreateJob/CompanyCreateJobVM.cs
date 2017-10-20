@@ -14,10 +14,10 @@ namespace CareerCloud.UI.MVC.Models.CreateJob
         [Display(Name = "Job Description")]
         public string JobDescription { get; set; }
 
-        [Display(Name = "Mark As Inactive?")]
-        public bool IsInternal { get; set; }
+        [Display(Name = "Mark Job As Inactive?")]
+        public bool IsInactive { get; set; }
 
-        [Display(Name = "Mark As Internal Only?")]
+        [Display(Name = "Mark Job As Internal Only?")]
         public bool IsCompanyHidden { get; set; }
 
         [Display(Name = "Required Skills")]
@@ -25,5 +25,7 @@ namespace CareerCloud.UI.MVC.Models.CreateJob
 
         [Display(Name = "Required Education")]
         public IEnumerable<JobEducationVM> JobEducation { get; set; }
+
+        public Guid Company { get; set; }
     }
 }

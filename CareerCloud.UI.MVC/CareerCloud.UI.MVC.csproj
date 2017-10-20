@@ -230,8 +230,9 @@
     <Content Include="Views\CompanyJob\Index.cshtml" />
     <Content Include="Views\Jobs\Search.cshtml" />
     <Content Include="Views\Jobs\ShowJobDetails.cshtml" />
-    <Content Include="Views\CompanyJob\_CreateJobSkills.cshtml" />
-    <Content Include="Views\CompanyJob\_CreateJobEducation.cshtml" />
+    <Content Include="Views\Shared\_CreateJobSkills.cshtml" />
+    <Content Include="Views\Shared\_CreateJobEducation.cshtml" />
+    <Content Include="Views\Shared\_DisplayJobDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
