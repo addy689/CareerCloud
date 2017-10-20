@@ -8,7 +8,7 @@
 <h4>Applicant: @ViewBag.ApplicantName</h4>
 <br />
 <p>
-    @Html.ActionLink("+ New Job Search", "Create")
+    @Html.ActionLink("+ New Job Search", "Search", "Jobs", new { applicantId = ViewBag.ApplicantId }, null)
 </p>
 <table class="table">
     <tr>

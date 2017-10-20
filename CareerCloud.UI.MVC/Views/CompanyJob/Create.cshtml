@@ -1,63 +1,38 @@
-﻿@model CareerCloud.Pocos.CompanyJobPoco
+﻿@using CareerCloud.UI.MVC.Models.CreateJob;
+@model CompanyCreateJobVM
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Job";
 }
 
-<h2>Create</h2>
+<style>
+    a.no-link {
+        text-decoration: none;
+    }
+</style>
 
-@using (Html.BeginForm()) 
+<h2>Create Job</h2>
+<h4>Company: @ViewBag.CompanyName</h4>
+
+@using (Html.BeginForm("Create", "Home", FormMethod.Post, new { @class = "form-horizontal", @id = "formCreateJob" }))
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>CompanyJobPoco</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Company, "Company", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Company", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @Html.Partial("_CreateJobSkills")@*, Model.JobSkills)*@
+    <br/>
+    @Html.Partial("_CreateJobEducation")@*, Model.JobEducation)*@
+    <br />
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProfileCreated, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ProfileCreated, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ProfileCreated, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsInactive, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsInactive)
-                    @Html.ValidationMessageFor(model => model.IsInactive, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsCompanyHidden, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsCompanyHidden)
-                    @Html.ValidationMessageFor(model => model.IsCompanyHidden, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+    <input class="btn btn-default" type="submit" onsubmit="return false;" value="Submit" />
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Jobs List", "Index", new { companyId = @ViewBag.CompanyId })
 </div>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(registerEvents);
+        $("#formCreateJob").submit(convertToFormData);
+    </script>
+}

@@ -8,6 +8,10 @@ using System.Linq;
 using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 using CareerCloud.UI.MVC.Models;
+using System.Net.Http.Formatting;
+using Newtonsoft.Json;
+using System.Text;
+using System.Net.Http.Headers;
 
 namespace CareerCloud.UI.MVC.Controllers
 {
@@ -27,26 +31,28 @@ namespace CareerCloud.UI.MVC.Controllers
             var response = Client.GetAsync(requestUri).Result;
             if (response.IsSuccessStatusCode)
             {
-                List<ApplicantJobApplicationVM> jobApplicationsVM = new List<ApplicantJobApplicationVM>();
+                List<ApplicantJobApplicationVM> viewModel = new List<ApplicantJobApplicationVM>();
                 
                 IEnumerable<ApplicantJobApplicationPoco> jobApplications = response.Content.ReadAsAsync<IList<ApplicantJobApplicationPoco>>().Result;
                 foreach (var jobApplication in jobApplications)
                 {
-                    jobApplicationsVM.Add(new ApplicantJobApplicationVM
+                    viewModel.Add(new ApplicantJobApplicationVM
                     {
                         JobId = jobApplication.Job,
                         JobTitle = jobApplication.CompanyJobs.CompanyJobDescriptions.FirstOrDefault().JobName,
                         Company = jobApplication.CompanyJobs.CompanyProfiles.CompanyDescriptions
                                                 .Where(cd => cd.LanguageId.Trim() == "EN")
                                                 .FirstOrDefault()
-                                                .CompanyName
+                                                .CompanyName,
+                        ApplicationDate = jobApplication.ApplicationDate
                     });
                 }
 
                 response = Client.GetAsync(GetApiUriString($"applicant/v1/profile/{applicantId}")).Result;
                 ViewBag.ApplicantName = response.Content.ReadAsAsync<ApplicantProfilePoco>().Result.SecurityLogins.FullName;
+                ViewBag.ApplicantId = applicantId;
 
-                return View(jobApplicationsVM);
+                return View(viewModel);
             }
 
             return ErrorView(response);
@@ -79,20 +85,35 @@ namespace CareerCloud.UI.MVC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Applicant,Job,ApplicationDate,TimeStamp")] ApplicantJobApplicationPoco applicantJobApplicationPoco)
+        public ActionResult Create([Bind(Include = "Applicant,Job")] ApplicantJobApplicationPoco applicantJobApplicationPoco)
         {
             if (ModelState.IsValid)
             {
                 applicantJobApplicationPoco.Id = Guid.NewGuid();
-                db.ApplicantJobApplication.Add(applicantJobApplicationPoco);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                applicantJobApplicationPoco.ApplicationDate = DateTime.Now;
 
-            ViewBag.Applicant = new SelectList(db.ApplicantProfile, "Id", "Currency", applicantJobApplicationPoco.Applicant);
-            ViewBag.Job = new SelectList(db.CompanyJob, "Id", "Id", applicantJobApplicationPoco.Job);
-            return View(applicantJobApplicationPoco);
+                //Prepare data to POST to WebAPI
+                string serialized = JsonConvert.SerializeObject(new ApplicantJobApplicationPoco[] { applicantJobApplicationPoco });
+                var inputMessage = new HttpRequestMessage
+                {
+                    Content = new StringContent(serialized, Encoding.UTF8, "application/json")
+                };
+                inputMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    
+                //Now POST data
+                string requestUri = GetApiUriString("applicant/v1/jobapplication");
+                var response = Client.PostAsync(requestUri, inputMessage.Content).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index", new { applicantId = applicantJobApplicationPoco.Applicant });
+                }
+
+                return ErrorView(response);
+            }
+            //ViewBag.Applicant = new SelectList(db.ApplicantProfile, "Id", "Currency", applicantJobApplicationPoco.Applicant);
+            //ViewBag.Job = new SelectList(db.CompanyJob, "Id", "Id", applicantJobApplicationPoco.Job);
+            //return View(applicantJobApplicationPoco);
+            return View("Error");
         }
 
         // GET: ApplicantJobApplication/Edit/5

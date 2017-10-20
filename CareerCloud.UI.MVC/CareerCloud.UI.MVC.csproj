@@ -150,6 +150,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ApplicantJobApplicationController.cs" />
     <Compile Include="Controllers\ApplicantController.cs" />
+    <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CompanyJobController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
@@ -160,6 +161,11 @@
     <Compile Include="Helpers\HttpClient.cs" />
     <Compile Include="Models\ApplicantJobApplicationVM.cs" />
     <Compile Include="Models\CompanyJobVM.cs" />
+    <Compile Include="Models\CreateJob\CompanyCreateJobVM.cs" />
+    <Compile Include="Models\CreateJob\JobEducationVM.cs" />
+    <Compile Include="Models\JobDetailsVM.cs" />
+    <Compile Include="Models\CreateJob\JobSkillVM.cs" />
+    <Compile Include="Models\SearchJobsVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +181,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\careerCloud.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -221,6 +228,10 @@
     <Content Include="Views\CompanyJob\Details.cshtml" />
     <Content Include="Views\CompanyJob\Edit.cshtml" />
     <Content Include="Views\CompanyJob\Index.cshtml" />
+    <Content Include="Views\Jobs\Search.cshtml" />
+    <Content Include="Views\Jobs\ShowJobDetails.cshtml" />
+    <Content Include="Views\CompanyJob\_CreateJobSkills.cshtml" />
+    <Content Include="Views\CompanyJob\_CreateJobEducation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

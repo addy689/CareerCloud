@@ -14,6 +14,8 @@ namespace CareerCloud.WebAPI
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApi",
             //    routeTemplate: "api/{controller}/{id}",

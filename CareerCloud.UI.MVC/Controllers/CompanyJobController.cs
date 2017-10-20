@@ -25,16 +25,16 @@ namespace CareerCloud.UI.MVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            string requestUri = GetApiUriString($"company/v1/job/{companyId}");
+            string requestUri = GetApiUriString($"company/v1/job?companyId={companyId}");
             var response = Client.GetAsync(requestUri).Result;
             if(response.IsSuccessStatusCode)
             {
-                List<CompanyJobVM> companyJobsVM = new List<CompanyJobVM>();
+                List<CompanyJobVM> viewModel = new List<CompanyJobVM>();
 
                 IEnumerable<CompanyJobPoco> companyJobs = response.Content.ReadAsAsync<IList<CompanyJobPoco>>().Result;
                 foreach (CompanyJobPoco companyJob in companyJobs)
                 {
-                    companyJobsVM.Add(new CompanyJobVM
+                    viewModel.Add(new CompanyJobVM
                     {
                         Id = companyJob.Id,
                         JobTitle = companyJob.CompanyJobDescriptions.FirstOrDefault().JobName,
@@ -45,12 +45,13 @@ namespace CareerCloud.UI.MVC.Controllers
                 }
 
                 response = Client.GetAsync(GetApiUriString($"company/v1/profile/{companyId}")).Result;
+                ViewBag.CompanyId = companyId;
                 ViewBag.CompanyName = response.Content.ReadAsAsync<CompanyProfilePoco>().Result
                                             .CompanyDescriptions.Where(cd => cd.LanguageId.Trim() == "EN")
                                             .FirstOrDefault()
                                             .CompanyName;
 
-                return View(companyJobsVM);
+                return View(viewModel);
             }
 
             return ErrorView(response);
@@ -72,9 +73,11 @@ namespace CareerCloud.UI.MVC.Controllers
         }
 
         // GET: CompanyJob/Create
-        public ActionResult Create()
+        public ActionResult Create(Guid? companyId)
         {
-            ViewBag.Company = new SelectList(db.CompanyProfile, "Id", "CompanyWebsite");
+            ViewBag.CompanyName = "Hello";
+            ViewBag.CompanyId = companyId;
+
             return View();
         }
 

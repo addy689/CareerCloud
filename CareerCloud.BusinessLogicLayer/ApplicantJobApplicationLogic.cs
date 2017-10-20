@@ -28,7 +28,7 @@ namespace CareerCloud.BusinessLogicLayer
 
             foreach (ApplicantJobApplicationPoco poco in pocos)
             {
-                if (poco.ApplicationDate > DateTime.Today)
+                if (poco.ApplicationDate.Date > DateTime.Today)
                     validationErrors.Add(new ValidationException(110, $"ApplicationDate for ApplicantJobApplication {poco.ApplicationDate} cannot be greater than today"));
             }
 

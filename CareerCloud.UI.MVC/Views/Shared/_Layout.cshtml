@@ -20,8 +20,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Applicant", "Index", "ApplicantProfile")</li>
-                    <li>@Html.ActionLink("Company", "Index", "CompanyProfile")</li>
+                    <li>@Html.ActionLink("Applicant", "Index", "Applicant")</li>
+                    <li>@Html.ActionLink("Company", "Index", "Company")</li>
                 </ul>
             </div>
         </div>
@@ -47,6 +47,8 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript" src="~/Scripts/careerCloud.js"></script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
