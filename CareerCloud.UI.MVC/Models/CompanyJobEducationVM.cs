@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CareerCloud.UI.MVC.Models.CreateJob
+namespace CareerCloud.UI.MVC.Models
 {
-    public class JobEducationVM
+    public class CompanyJobEducationVM
     {
         public string Major { get; set; }
 

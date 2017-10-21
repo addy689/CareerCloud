@@ -1,5 +1,5 @@
-﻿@using CareerCloud.UI.MVC.Models.CreateJob
-@model CompanyCreateJobVM
+﻿@using CareerCloud.UI.MVC.Models
+@model CompanyJobDetailsVM
 
 @{
     ViewBag.Title = "Create Job";
@@ -56,9 +56,9 @@
     </div>
 
     <br />
-    @Html.Partial("~/Views/Shared/_CreateJobSkills.cshtml", new List<JobSkillVM>())
+    @Html.Partial("~/Views/Shared/_CreateJobSkills.cshtml", new List<CompanyJobSkillVM>())
     <br />
-    @Html.Partial("~/Views/Shared/_CreateJobEducation.cshtml", new List<JobEducationVM>())
+    @Html.Partial("~/Views/Shared/_CreateJobEducation.cshtml", new List<CompanyJobEducationVM>())
     <br />
     <br />
     <input id="@Html.DisplayNameFor(model=>model.Company)" name="@Html.DisplayNameFor(model=>model.Company)" type="hidden" value="@ViewBag.CompanyId" />
@@ -67,7 +67,7 @@
 
 <br />
 <div>
-    @Html.ActionLink("Back to Jobs List", "Index", new { companyId = @ViewBag.CompanyId })
+    <b>@Html.ActionLink("Back to Jobs List", "Index", new { companyId = @ViewBag.CompanyId })</b>
 </div>
 
 

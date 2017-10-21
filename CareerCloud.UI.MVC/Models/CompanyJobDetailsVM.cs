@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace CareerCloud.UI.MVC.Models.CreateJob
+namespace CareerCloud.UI.MVC.Models
 {
-    public class CompanyCreateJobVM
+    public class CompanyJobDetailsVM
     {
         [Display(Name = "Job Title")]
         public string JobName { get; set; }
@@ -14,17 +14,20 @@ namespace CareerCloud.UI.MVC.Models.CreateJob
         [Display(Name = "Job Description")]
         public string JobDescription { get; set; }
 
-        [Display(Name = "Mark Job As Inactive?")]
+        [Display(Name = "Date Posted")]
+        public DateTime DatePosted { get; set; }
+
+        [Display(Name = "Is Inactive")]
         public bool IsInactive { get; set; }
 
-        [Display(Name = "Mark Job As Internal Only?")]
+        [Display(Name = "Is Internal")]
         public bool IsCompanyHidden { get; set; }
 
         [Display(Name = "Required Skills")]
-        public IEnumerable<JobSkillVM> JobSkills { get; set; }
+        public IEnumerable<CompanyJobSkillVM> JobSkills { get; set; }
 
         [Display(Name = "Required Education")]
-        public IEnumerable<JobEducationVM> JobEducation { get; set; }
+        public IEnumerable<CompanyJobEducationVM> JobEducation { get; set; }
 
         public Guid Company { get; set; }
     }

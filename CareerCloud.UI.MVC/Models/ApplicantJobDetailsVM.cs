@@ -6,7 +6,7 @@ using System.Web;
 
 namespace CareerCloud.UI.MVC.Models
 {
-    public class JobDetailsVM
+    public class ApplicantJobDetailsVM
     {
         public DateTime DatePosted { get; set; }
         public string Company { get; set; }

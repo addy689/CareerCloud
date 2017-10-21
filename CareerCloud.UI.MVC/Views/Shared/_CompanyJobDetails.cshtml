@@ -1,0 +1,101 @@
+﻿@model CareerCloud.UI.MVC.Models.CompanyJobDetailsVM
+
+<style>
+    dt, dd {
+        display: block;
+        margin-top: 20px;
+    }
+</style>
+
+<h2>Job Details</h2>
+<h4>Company: @ViewBag.CompanyName</h4>
+
+<div>
+    <h4>@Html.DisplayNameFor(model => model.JobName) : @Html.DisplayFor(model => model.JobName)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dd></dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.JobDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DatePosted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DatePosted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsInactive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsInactive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCompanyHidden)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsCompanyHidden)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobSkills)
+        </dt>
+
+        <dd>
+            <div class="col-md-6">
+                <table class="table">
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.JobSkills.FirstOrDefault().SkillName)</th>
+                        <th>@Html.DisplayNameFor(model => model.JobSkills.FirstOrDefault().SelectedSkillLevel)</th>
+                        <th>@Html.DisplayNameFor(model => model.JobSkills.FirstOrDefault().SelectedImportance)</th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.JobSkills)
+                    {
+                    <tr>
+                        <td>@Html.DisplayFor(itemModel => item.SkillName)</td>
+                        <td>@Html.DisplayFor(itemModel => item.SelectedSkillLevel)</td>
+                        <td>@Html.DisplayFor(itemModel => item.SelectedImportance)</td>
+                    </tr>
+                    }
+                </table>
+            </div>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobEducation)
+        </dt>
+
+        <dd>
+            <div class="col-md-5">
+                <table class="table">
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.JobEducation.FirstOrDefault().Major)</th>
+                        <th>@Html.DisplayNameFor(model => model.JobEducation.FirstOrDefault().SelectedImportance)</th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.JobEducation)
+                    {
+                    <tr>
+                        <td>@Html.DisplayFor(itemModel => item.Major)</td>
+                        <td>@Html.DisplayFor(itemModel => item.SelectedImportance)</td>
+                    </tr>
+                    }
+                </table>
+            </div>
+        </dd>
+
+    </dl>
+</div>

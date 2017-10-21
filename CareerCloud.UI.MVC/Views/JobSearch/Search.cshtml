@@ -1,7 +1,7 @@
-﻿@model IEnumerable<CareerCloud.UI.MVC.Models.SearchJobsVM>
+﻿@model IEnumerable<CareerCloud.UI.MVC.Models.ApplicantJobSearchVM>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "JobSearch";
 }
 
 <h2>Search Jobs</h2>
@@ -36,7 +36,7 @@
             @Html.DisplayFor(modelItem => item.DatePosted)
         </td>
         <td>
-            @Html.ActionLink("Details", "ShowJobDetails", new { companyId = item.CompanyId, jobId = item.JobId, applicantId = item.ApplicantId })
+            <b>@Html.ActionLink("Details", "ShowJobDetails", new { companyId = item.CompanyId, jobId = item.JobId, applicantId = item.ApplicantId })</b>
             @*@Html.ActionLink("Apply", "ApplyForJob", new { jobId = item.JobId, applicantId = item.ApplicantId })*@
         </td>
     </tr>

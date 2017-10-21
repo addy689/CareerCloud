@@ -47,7 +47,7 @@
             @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
             @Html.ActionLink("Description", "Index", "CompanyDescription", new { id = item.Id }, null) |
             @Html.ActionLink("Location", "Index", "CompanyLocation", new { id = item.Id }, null) |
-            @Html.ActionLink("Jobs Listing", "Index", "CompanyJob", new { companyId = item.Id }, null)
+            <b>@Html.ActionLink("Jobs Listing", "Index", "CompanyJob", new { companyId = item.Id }, null)</b>
         </td>
     </tr>
     }

@@ -5,19 +5,15 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Mvc;
 using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 using CareerCloud.UI.MVC.Models;
-using CareerCloud.UI.MVC.Models.CreateJob;
 
 namespace CareerCloud.UI.MVC.Controllers
 {
     public class CompanyJobController : BaseController
     {
-        private CareerCloudContext db = new CareerCloudContext();
-
         // GET: CompanyJob
         public ActionResult Index(Guid? companyId)
         {
@@ -30,12 +26,12 @@ namespace CareerCloud.UI.MVC.Controllers
             var response = Client.GetAsync(requestUri).Result;
             if (response.IsSuccessStatusCode)
             {
-                List<CompanyJobVM> viewModel = new List<CompanyJobVM>();
+                List<CompanyJobsListVM> viewModel = new List<CompanyJobsListVM>();
 
                 IEnumerable<CompanyJobPoco> companyJobs = response.Content.ReadAsAsync<IList<CompanyJobPoco>>().Result;
                 foreach (CompanyJobPoco companyJob in companyJobs)
                 {
-                    viewModel.Add(new CompanyJobVM
+                    viewModel.Add(new CompanyJobsListVM
                     {
                         Id = companyJob.Id,
                         JobTitle = companyJob.CompanyJobDescriptions.FirstOrDefault().JobName,
@@ -59,20 +55,55 @@ namespace CareerCloud.UI.MVC.Controllers
         }
 
         // GET: CompanyJob/Details/5
-        public ActionResult Details(Guid? id)
+        public ActionResult Details(Guid? jobId, Guid? companyId)
         {
-            if (id == null)
+            if (companyId == null || jobId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            CompanyJobPoco companyJobPoco = db.CompanyJob.Find(id);
-            if (companyJobPoco == null)
+            string requestUri = GetApiUriString($"company/v1/job/{jobId}");
+            var response = Client.GetAsync(requestUri).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return HttpNotFound();
+                CompanyJobPoco job = response.Content.ReadAsAsync<CompanyJobPoco>().Result;
+
+                CompanyJobDetailsVM viewModel = new CompanyJobDetailsVM
+                {
+                    DatePosted = DateTime.Now,
+                    Company = companyId.Value,
+                    JobName = job.CompanyJobDescriptions.FirstOrDefault().JobName,
+                    JobDescription = job.CompanyJobDescriptions.FirstOrDefault().JobDescriptions,
+
+                    JobSkills = job.CompanyJobSkills
+                                .Select(s => new CompanyJobSkillVM
+                                {
+                                    SkillName = s.Skill,
+                                    SelectedSkillLevel = s.SkillLevel,
+                                    SelectedImportance = s.Importance.ToString()
+                                }),
+
+                    JobEducation = job.CompanyJobEducation
+                                .Select(ed => new CompanyJobEducationVM
+                                {
+                                    Major = ed.Major,
+                                    SelectedImportance = ed.Importance.ToString()
+                                })
+                };
+
+                ViewBag.CompanyName = job.CompanyProfiles
+                                 .CompanyDescriptions
+                                 .Where(cd => cd.LanguageId.Trim() == "EN")
+                                 .FirstOrDefault()
+                                 .CompanyName;
+                
+                ViewBag.CompanyId = companyId;
+
+                return View(viewModel);
             }
-            return View(companyJobPoco);
-        }
+
+            return ErrorView(response);
+        }    
 
         // GET: CompanyJob/Create
         public ActionResult Create(Guid? companyId)
@@ -102,10 +133,10 @@ namespace CareerCloud.UI.MVC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create([Bind(Include = "JobName,JobDescription,IsInactive,IsCompanyHidden,JobSkills,JobEducation,Company")] CompanyCreateJobVM companyCreateJobVM)
+        public ActionResult Create([Bind(Include = "JobName,JobDescription,IsInactive,IsCompanyHidden,JobSkills,JobEducation,Company")] CompanyJobDetailsVM companyJobDetailsVM)
         {
             if (!ModelState.IsValid)
-                return View(companyCreateJobVM);
+                return View(companyJobDetailsVM);
 
             bool isCreateSuccess = true;
 
@@ -114,9 +145,9 @@ namespace CareerCloud.UI.MVC.Controllers
             {
                 Id = Guid.NewGuid(),
                 ProfileCreated = DateTime.Now,
-                Company = companyCreateJobVM.Company,
-                IsInactive = companyCreateJobVM.IsInactive,
-                IsCompanyHidden = companyCreateJobVM.IsCompanyHidden,
+                Company = companyJobDetailsVM.Company,
+                IsInactive = companyJobDetailsVM.IsInactive,
+                IsCompanyHidden = companyJobDetailsVM.IsCompanyHidden,
             };
             isCreateSuccess &= PostToServer(new CompanyJobPoco[] { jobPoco }, "company/v1/job").IsSuccessStatusCode;
 
@@ -125,14 +156,14 @@ namespace CareerCloud.UI.MVC.Controllers
             {
                 Id = Guid.NewGuid(),
                 Job = jobPoco.Id,
-                JobName = companyCreateJobVM.JobName,
-                JobDescriptions = companyCreateJobVM.JobDescription
+                JobName = companyJobDetailsVM.JobName,
+                JobDescriptions = companyJobDetailsVM.JobDescription
             };
             isCreateSuccess &= PostToServer(new CompanyJobDescriptionPoco[] { descPoco }, "company/v1/jobdescription").IsSuccessStatusCode;
 
             //Create Job Skills info
             List<CompanyJobSkillPoco> skillPocos = new List<CompanyJobSkillPoco>();
-            foreach(var s in companyCreateJobVM.JobSkills)
+            foreach(var s in companyJobDetailsVM.JobSkills)
             {
                 skillPocos.Add(new CompanyJobSkillPoco
                 {
@@ -147,7 +178,7 @@ namespace CareerCloud.UI.MVC.Controllers
 
             //Create Job Education info
             List<CompanyJobEducationPoco> educationPocos = new List<CompanyJobEducationPoco>();
-            foreach (var e in companyCreateJobVM.JobEducation)
+            foreach (var e in companyJobDetailsVM.JobEducation)
             {
                 educationPocos.Add(new CompanyJobEducationPoco
                 {
@@ -163,7 +194,7 @@ namespace CareerCloud.UI.MVC.Controllers
             //Finally, check if the complete Job Creation process was successful
             if (isCreateSuccess)
             {
-                return RedirectToAction("Index", new { companyId = companyCreateJobVM.Company });
+                return RedirectToAction("Index", new { companyId = companyJobDetailsVM.Company });
             }
 
             return View("Error");
@@ -172,17 +203,18 @@ namespace CareerCloud.UI.MVC.Controllers
         // GET: CompanyJob/Edit/5
         public ActionResult Edit(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CompanyJobPoco companyJobPoco = db.CompanyJob.Find(id);
-            if (companyJobPoco == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.Company = new SelectList(db.CompanyProfile, "Id", "CompanyWebsite", companyJobPoco.Company);
-            return View(companyJobPoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //CompanyJobPoco companyJobPoco = db.CompanyJob.Find(id);
+            //if (companyJobPoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //ViewBag.Company = new SelectList(db.CompanyProfile, "Id", "CompanyWebsite", companyJobPoco.Company);
+            //return View(companyJobPoco);
+            return View("Error");
         }
 
         // POST: CompanyJob/Edit/5
@@ -192,29 +224,33 @@ namespace CareerCloud.UI.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Company,ProfileCreated,IsInactive,IsCompanyHidden,TimeStamp")] CompanyJobPoco companyJobPoco)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(companyJobPoco).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.Company = new SelectList(db.CompanyProfile, "Id", "CompanyWebsite", companyJobPoco.Company);
-            return View(companyJobPoco);
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(companyJobPoco).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //ViewBag.Company = new SelectList(db.CompanyProfile, "Id", "CompanyWebsite", companyJobPoco.Company);
+            //return View(companyJobPoco);
+            return View("Error");
+
         }
 
         // GET: CompanyJob/Delete/5
         public ActionResult Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CompanyJobPoco companyJobPoco = db.CompanyJob.Find(id);
-            if (companyJobPoco == null)
-            {
-                return HttpNotFound();
-            }
-            return View(companyJobPoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //CompanyJobPoco companyJobPoco = db.CompanyJob.Find(id);
+            //if (companyJobPoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(companyJobPoco);
+            return View("Error");
+
         }
 
         // POST: CompanyJob/Delete/5
@@ -222,19 +258,13 @@ namespace CareerCloud.UI.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            CompanyJobPoco companyJobPoco = db.CompanyJob.Find(id);
-            db.CompanyJob.Remove(companyJobPoco);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+            //CompanyJobPoco companyJobPoco = db.CompanyJob.Find(id);
+            //db.CompanyJob.Remove(companyJobPoco);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
+            return View("Error");
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
+        
     }
 }

@@ -11,8 +11,6 @@ namespace CareerCloud.UI.MVC.Controllers
 {
     public class ApplicantController : BaseController
     {
-        private CareerCloudContext db = new CareerCloudContext(false);
-        
         // GET: ApplicantProfile
         public ActionResult Index()
         {
@@ -30,24 +28,27 @@ namespace CareerCloud.UI.MVC.Controllers
         // GET: ApplicantProfile/Details/5
         public ActionResult Details(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicantProfilePoco applicantProfilePoco = db.ApplicantProfile.Find(id);
-            if (applicantProfilePoco == null)
-            {
-                return HttpNotFound();
-            }
-            return View(applicantProfilePoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //ApplicantProfilePoco applicantProfilePoco = db.ApplicantProfile.Find(id);
+            //if (applicantProfilePoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(applicantProfilePoco);
+            return View("Error");
         }
 
         // GET: ApplicantProfile/Create
         public ActionResult Create()
         {
-            ViewBag.Login = new SelectList(db.SecurityLogin, "Id", "Login");
-            ViewBag.Country = new SelectList(db.SystemCountryCode, "Code", "Name");
-            return View();
+            //ViewBag.Login = new SelectList(db.SecurityLogin, "Id", "Login");
+            //ViewBag.Country = new SelectList(db.SystemCountryCode, "Code", "Name");
+            //return View();
+            return View("Error");
+
         }
 
         // POST: ApplicantProfile/Create
@@ -57,34 +58,38 @@ namespace CareerCloud.UI.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Login,CurrentSalary,CurrentRate,Currency,Country,Province,Street,City,PostalCode,TimeStamp")] ApplicantProfilePoco applicantProfilePoco)
         {
-            if (ModelState.IsValid)
-            {
-                applicantProfilePoco.Id = Guid.NewGuid();
-                db.ApplicantProfile.Add(applicantProfilePoco);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    applicantProfilePoco.Id = Guid.NewGuid();
+            //    db.ApplicantProfile.Add(applicantProfilePoco);
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
 
-            ViewBag.Login = new SelectList(db.SecurityLogin, "Id", "Login", applicantProfilePoco.Login);
-            ViewBag.Country = new SelectList(db.SystemCountryCode, "Code", "Name", applicantProfilePoco.Country);
-            return View(applicantProfilePoco);
+            //ViewBag.Login = new SelectList(db.SecurityLogin, "Id", "Login", applicantProfilePoco.Login);
+            //ViewBag.Country = new SelectList(db.SystemCountryCode, "Code", "Name", applicantProfilePoco.Country);
+            //return View(applicantProfilePoco);
+            return View("Error");
+
         }
 
         // GET: ApplicantProfile/Edit/5
         public ActionResult Edit(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicantProfilePoco applicantProfilePoco = db.ApplicantProfile.Find(id);
-            if (applicantProfilePoco == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.Login = new SelectList(db.SecurityLogin, "Id", "Login", applicantProfilePoco.Login);
-            ViewBag.Country = new SelectList(db.SystemCountryCode, "Code", "Name", applicantProfilePoco.Country);
-            return View(applicantProfilePoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //ApplicantProfilePoco applicantProfilePoco = db.ApplicantProfile.Find(id);
+            //if (applicantProfilePoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //ViewBag.Login = new SelectList(db.SecurityLogin, "Id", "Login", applicantProfilePoco.Login);
+            //ViewBag.Country = new SelectList(db.SystemCountryCode, "Code", "Name", applicantProfilePoco.Country);
+            //return View(applicantProfilePoco);
+            return View("Error");
+
         }
 
         // POST: ApplicantProfile/Edit/5
@@ -94,30 +99,34 @@ namespace CareerCloud.UI.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Login,CurrentSalary,CurrentRate,Currency,Country,Province,Street,City,PostalCode,TimeStamp")] ApplicantProfilePoco applicantProfilePoco)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(applicantProfilePoco).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.Login = new SelectList(db.SecurityLogin, "Id", "Login", applicantProfilePoco.Login);
-            ViewBag.Country = new SelectList(db.SystemCountryCode, "Code", "Name", applicantProfilePoco.Country);
-            return View(applicantProfilePoco);
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(applicantProfilePoco).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //ViewBag.Login = new SelectList(db.SecurityLogin, "Id", "Login", applicantProfilePoco.Login);
+            //ViewBag.Country = new SelectList(db.SystemCountryCode, "Code", "Name", applicantProfilePoco.Country);
+            //return View(applicantProfilePoco);
+            return View("Error");
+
         }
 
         // GET: ApplicantProfile/Delete/5
         public ActionResult Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicantProfilePoco applicantProfilePoco = db.ApplicantProfile.Find(id);
-            if (applicantProfilePoco == null)
-            {
-                return HttpNotFound();
-            }
-            return View(applicantProfilePoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //ApplicantProfilePoco applicantProfilePoco = db.ApplicantProfile.Find(id);
+            //if (applicantProfilePoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(applicantProfilePoco);
+            return View("Error");
+
         }
 
         // POST: ApplicantProfile/Delete/5
@@ -125,19 +134,13 @@ namespace CareerCloud.UI.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            ApplicantProfilePoco applicantProfilePoco = db.ApplicantProfile.Find(id);
-            db.ApplicantProfile.Remove(applicantProfilePoco);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            //ApplicantProfilePoco applicantProfilePoco = db.ApplicantProfile.Find(id);
+            //db.ApplicantProfile.Remove(applicantProfilePoco);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
+            return View("Error");
+
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

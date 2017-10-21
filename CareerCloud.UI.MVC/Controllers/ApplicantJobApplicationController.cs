@@ -17,8 +17,6 @@ namespace CareerCloud.UI.MVC.Controllers
 {
     public class ApplicantJobApplicationController : BaseController
     {
-        private CareerCloudContext db = new CareerCloudContext();
-
         // GET: ApplicantJobApplication
         public ActionResult Index(Guid? applicantId)
         {
@@ -31,12 +29,12 @@ namespace CareerCloud.UI.MVC.Controllers
             var response = Client.GetAsync(requestUri).Result;
             if (response.IsSuccessStatusCode)
             {
-                List<ApplicantJobApplicationVM> viewModel = new List<ApplicantJobApplicationVM>();
+                List<ApplicantJobApplicationListVM> viewModel = new List<ApplicantJobApplicationListVM>();
                 
                 IEnumerable<ApplicantJobApplicationPoco> jobApplications = response.Content.ReadAsAsync<IList<ApplicantJobApplicationPoco>>().Result;
                 foreach (var jobApplication in jobApplications)
                 {
-                    viewModel.Add(new ApplicantJobApplicationVM
+                    viewModel.Add(new ApplicantJobApplicationListVM
                     {
                         JobId = jobApplication.Job,
                         JobTitle = jobApplication.CompanyJobs.CompanyJobDescriptions.FirstOrDefault().JobName,
@@ -61,24 +59,26 @@ namespace CareerCloud.UI.MVC.Controllers
         // GET: ApplicantJobApplication/Details/5
         public ActionResult Details(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicantJobApplicationPoco applicantJobApplicationPoco = db.ApplicantJobApplication.Find(id);
-            if (applicantJobApplicationPoco == null)
-            {
-                return HttpNotFound();
-            }
-            return View(applicantJobApplicationPoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //ApplicantJobApplicationPoco applicantJobApplicationPoco = db.ApplicantJobApplication.Find(id);
+            //if (applicantJobApplicationPoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(applicantJobApplicationPoco);
+            return View("Error");
         }
 
         // GET: ApplicantJobApplication/Create
         public ActionResult Create()
         {
-            ViewBag.Applicant = new SelectList(db.ApplicantProfile, "Id", "Currency");
-            ViewBag.Job = new SelectList(db.CompanyJob, "Id", "Id");
-            return View();
+            //ViewBag.Applicant = new SelectList(db.ApplicantProfile, "Id", "Currency");
+            //ViewBag.Job = new SelectList(db.CompanyJob, "Id", "Id");
+            //return View();
+            return View("Error");
         }
 
         // POST: ApplicantJobApplication/Create
@@ -106,18 +106,19 @@ namespace CareerCloud.UI.MVC.Controllers
         // GET: ApplicantJobApplication/Edit/5
         public ActionResult Edit(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicantJobApplicationPoco applicantJobApplicationPoco = db.ApplicantJobApplication.Find(id);
-            if (applicantJobApplicationPoco == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.Applicant = new SelectList(db.ApplicantProfile, "Id", "Currency", applicantJobApplicationPoco.Applicant);
-            ViewBag.Job = new SelectList(db.CompanyJob, "Id", "Id", applicantJobApplicationPoco.Job);
-            return View(applicantJobApplicationPoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //ApplicantJobApplicationPoco applicantJobApplicationPoco = db.ApplicantJobApplication.Find(id);
+            //if (applicantJobApplicationPoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //ViewBag.Applicant = new SelectList(db.ApplicantProfile, "Id", "Currency", applicantJobApplicationPoco.Applicant);
+            //ViewBag.Job = new SelectList(db.CompanyJob, "Id", "Id", applicantJobApplicationPoco.Job);
+            //return View(applicantJobApplicationPoco);
+            return View("Error");
         }
 
         // POST: ApplicantJobApplication/Edit/5
@@ -127,30 +128,32 @@ namespace CareerCloud.UI.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Applicant,Job,ApplicationDate,TimeStamp")] ApplicantJobApplicationPoco applicantJobApplicationPoco)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(applicantJobApplicationPoco).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.Applicant = new SelectList(db.ApplicantProfile, "Id", "Currency", applicantJobApplicationPoco.Applicant);
-            ViewBag.Job = new SelectList(db.CompanyJob, "Id", "Id", applicantJobApplicationPoco.Job);
-            return View(applicantJobApplicationPoco);
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(applicantJobApplicationPoco).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //ViewBag.Applicant = new SelectList(db.ApplicantProfile, "Id", "Currency", applicantJobApplicationPoco.Applicant);
+            //ViewBag.Job = new SelectList(db.CompanyJob, "Id", "Id", applicantJobApplicationPoco.Job);
+            //return View(applicantJobApplicationPoco);
+            return View("Error");
         }
 
         // GET: ApplicantJobApplication/Delete/5
         public ActionResult Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicantJobApplicationPoco applicantJobApplicationPoco = db.ApplicantJobApplication.Find(id);
-            if (applicantJobApplicationPoco == null)
-            {
-                return HttpNotFound();
-            }
-            return View(applicantJobApplicationPoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //ApplicantJobApplicationPoco applicantJobApplicationPoco = db.ApplicantJobApplication.Find(id);
+            //if (applicantJobApplicationPoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(applicantJobApplicationPoco);
+            return View("Error");
         }
 
         // POST: ApplicantJobApplication/Delete/5
@@ -158,19 +161,12 @@ namespace CareerCloud.UI.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            ApplicantJobApplicationPoco applicantJobApplicationPoco = db.ApplicantJobApplication.Find(id);
-            db.ApplicantJobApplication.Remove(applicantJobApplicationPoco);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            //ApplicantJobApplicationPoco applicantJobApplicationPoco = db.ApplicantJobApplication.Find(id);
+            //db.ApplicantJobApplication.Remove(applicantJobApplicationPoco);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
+            return View("Error");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

@@ -18,6 +18,8 @@ function onRemoveItem(e) {
     if ($(e.target).is('button.close > span')) {
         var row = $(e.target).parentsUntil('table').filter('tr');
         row.remove();
+
+        $(e.target).parents("table").first().focus();
     }
 }
 
@@ -81,6 +83,7 @@ function onAddItem(e) {
     
     var tableElem = $(e.target).parentsUntil('div.form-group').filter('div').children('table.dynamic-data-table');
     tableElem.append(newRow);
+    $(newRow).find("input").first().focus();
 }
 
 //change to switch cases based on arg e

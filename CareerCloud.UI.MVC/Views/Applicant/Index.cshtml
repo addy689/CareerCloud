@@ -77,7 +77,8 @@
             @Html.ActionLink("Resume", "Index", "ApplicantResume", new { id = item.Id }, null) |
             @Html.ActionLink("Skill", "Index", "ApplicantSkill", new { id = item.Id }, null) |
             @Html.ActionLink("Work History", "Index", "ApplicantWorkHistory", new { id = item.Id }, null) |
-            @Html.ActionLink("Applied Jobs", "Index", "ApplicantJobApplication", new { applicantId = item.Id }, null )
+            <b>@Html.ActionLink("Applied Jobs", "Index", "ApplicantJobApplication", new { applicantId = item.Id }, null)</b>
+
         </td>
     </tr>
 }

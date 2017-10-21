@@ -10,7 +10,7 @@ using CareerCloud.UI.MVC.Models;
 
 namespace CareerCloud.UI.MVC.Controllers
 {
-    public class JobsController : BaseController
+    public class JobSearchController : BaseController
     {
         // GET: ApplyJobs
         public ActionResult Search(Guid? applicantId)
@@ -22,10 +22,10 @@ namespace CareerCloud.UI.MVC.Controllers
             {
                 var allJobs = response.Content.ReadAsAsync<IList<CompanyJobPoco>>().Result;
 
-                List<SearchJobsVM> viewModel = new List<SearchJobsVM>();
+                List<ApplicantJobSearchVM> viewModel = new List<ApplicantJobSearchVM>();
                 foreach (CompanyJobPoco j in allJobs.Where(x => !x.IsInactive && !x.IsCompanyHidden))
                 {
-                    viewModel.Add(new SearchJobsVM
+                    viewModel.Add(new ApplicantJobSearchVM
                     {
                         JobTitle = j.CompanyJobDescriptions.FirstOrDefault().JobName,
                         CompanyName = j.CompanyProfiles.CompanyDescriptions
@@ -59,7 +59,7 @@ namespace CareerCloud.UI.MVC.Controllers
             {
                 CompanyJobPoco job = response.Content.ReadAsAsync<CompanyJobPoco>().Result;
 
-                JobDetailsVM viewModel = new JobDetailsVM
+                ApplicantJobDetailsVM viewModel = new ApplicantJobDetailsVM
                 {
                     ApplicantId = applicantId.Value,
                     JobId = jobId.Value,

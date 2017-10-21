@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CareerCloud.UI.MVC.Models.CompanyJobVM>
+﻿@model IEnumerable<CareerCloud.UI.MVC.Models.CompanyJobsListVM>
 
 @{
     ViewBag.Title = "CompanyJobs";
@@ -8,7 +8,7 @@
 <h4>Company: @ViewBag.CompanyName</h4>
 <br />
 <p>
-    @Html.ActionLink("+ Add New Job", "Create", new { companyId = ViewBag.CompanyId})
+    <b>@Html.ActionLink("+ Add New Job", "Create", new { companyId = ViewBag.CompanyId })</b>
 </p>
 <table class="table">
     <tr>
@@ -27,31 +27,32 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.JobTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DatePosted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsInactive)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsInternalPosition)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DatePosted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsInactive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsInternalPosition)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                <b>@Html.ActionLink("Details", "Details", new { jobId = item.Id, companyId = ViewBag.CompanyId })</b> |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
 
 
 <p>
-    @Html.ActionLink("Back to list of Companies", "Index", "Company", null, null)
+    <b>@Html.ActionLink("Back to list of Companies", "Index", "Company", null, null)</b>
 </p>

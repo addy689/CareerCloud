@@ -1,17 +1,16 @@
-﻿@model CareerCloud.UI.MVC.Models.JobDetailsVM
+﻿@model CareerCloud.UI.MVC.Models.ApplicantJobDetailsVM
 
 @{
     ViewBag.Title = "ShowJobDetails";
 }
 
-@Html.Partial("~/Views/Shared/_DisplayJobDetails.cshtml")
+@Html.Partial("~/Views/Shared/_ApplicantJobDetails.cshtml")
 
 <br/>
 @using (Html.BeginForm("Create", "ApplicantJobApplication"))
 {
     @Html.Hidden(@Html.DisplayNameFor(model => model.ApplicantId).ToHtmlString(), Model.ApplicantId)
     @Html.Hidden(@Html.DisplayNameFor(model => model.JobId).ToHtmlString(), Model.JobId)
-    @*@Html.HiddenFor(model => model.JobId)*@
 
     <input type="submit" value="Apply" class="btn btn-primary btn-default"/>
 }

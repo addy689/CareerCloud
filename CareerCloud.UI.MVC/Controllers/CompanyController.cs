@@ -14,8 +14,6 @@ namespace CareerCloud.UI.MVC.Controllers
 {
     public class CompanyController : BaseController
     {
-        private CareerCloudContext db = new CareerCloudContext();
-
         // GET: CompanyProfile
         public ActionResult Index()
         {
@@ -33,16 +31,17 @@ namespace CareerCloud.UI.MVC.Controllers
         // GET: CompanyProfile/Details/5
         public ActionResult Details(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CompanyProfilePoco companyProfilePoco = db.CompanyProfile.Find(id);
-            if (companyProfilePoco == null)
-            {
-                return HttpNotFound();
-            }
-            return View(companyProfilePoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //CompanyProfilePoco companyProfilePoco = db.CompanyProfile.Find(id);
+            //if (companyProfilePoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(companyProfilePoco);
+            return View("Error");
         }
 
         // GET: CompanyProfile/Create
@@ -58,30 +57,32 @@ namespace CareerCloud.UI.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,RegistrationDate,CompanyWebsite,ContactPhone,ContactName,CompanyLogo,TimeStamp")] CompanyProfilePoco companyProfilePoco)
         {
-            if (ModelState.IsValid)
-            {
-                companyProfilePoco.Id = Guid.NewGuid();
-                db.CompanyProfile.Add(companyProfilePoco);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    companyProfilePoco.Id = Guid.NewGuid();
+            //    db.CompanyProfile.Add(companyProfilePoco);
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
 
-            return View(companyProfilePoco);
+            //return View(companyProfilePoco);
+            return View("Error");
         }
 
         // GET: CompanyProfile/Edit/5
         public ActionResult Edit(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CompanyProfilePoco companyProfilePoco = db.CompanyProfile.Find(id);
-            if (companyProfilePoco == null)
-            {
-                return HttpNotFound();
-            }
-            return View(companyProfilePoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //CompanyProfilePoco companyProfilePoco = db.CompanyProfile.Find(id);
+            //if (companyProfilePoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(companyProfilePoco);
+            return View("Error");
         }
 
         // POST: CompanyProfile/Edit/5
@@ -91,28 +92,30 @@ namespace CareerCloud.UI.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,RegistrationDate,CompanyWebsite,ContactPhone,ContactName,CompanyLogo,TimeStamp")] CompanyProfilePoco companyProfilePoco)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(companyProfilePoco).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(companyProfilePoco);
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(companyProfilePoco).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //return View(companyProfilePoco);
+            return View("Error");
         }
 
         // GET: CompanyProfile/Delete/5
         public ActionResult Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CompanyProfilePoco companyProfilePoco = db.CompanyProfile.Find(id);
-            if (companyProfilePoco == null)
-            {
-                return HttpNotFound();
-            }
-            return View(companyProfilePoco);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //CompanyProfilePoco companyProfilePoco = db.CompanyProfile.Find(id);
+            //if (companyProfilePoco == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(companyProfilePoco);
+            return View("Error");
         }
 
         // POST: CompanyProfile/Delete/5
@@ -120,19 +123,12 @@ namespace CareerCloud.UI.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            CompanyProfilePoco companyProfilePoco = db.CompanyProfile.Find(id);
-            db.CompanyProfile.Remove(companyProfilePoco);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            //CompanyProfilePoco companyProfilePoco = db.CompanyProfile.Find(id);
+            //db.CompanyProfile.Remove(companyProfilePoco);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
+            return View("Error");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }

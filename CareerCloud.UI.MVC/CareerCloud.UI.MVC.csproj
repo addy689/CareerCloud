@@ -150,7 +150,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ApplicantJobApplicationController.cs" />
     <Compile Include="Controllers\ApplicantController.cs" />
-    <Compile Include="Controllers\JobsController.cs" />
+    <Compile Include="Controllers\JobSearchController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CompanyJobController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
@@ -159,13 +159,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HttpClient.cs" />
-    <Compile Include="Models\ApplicantJobApplicationVM.cs" />
-    <Compile Include="Models\CompanyJobVM.cs" />
-    <Compile Include="Models\CreateJob\CompanyCreateJobVM.cs" />
-    <Compile Include="Models\CreateJob\JobEducationVM.cs" />
-    <Compile Include="Models\JobDetailsVM.cs" />
-    <Compile Include="Models\CreateJob\JobSkillVM.cs" />
-    <Compile Include="Models\SearchJobsVM.cs" />
+    <Compile Include="Models\ApplicantJobApplicationListVM.cs" />
+    <Compile Include="Models\CompanyJobsListVM.cs" />
+    <Compile Include="Models\CompanyJobDetailsVM.cs" />
+    <Compile Include="Models\CompanyJobEducationVM.cs" />
+    <Compile Include="Models\ApplicantJobDetailsVM.cs" />
+    <Compile Include="Models\CompanyJobSkillVM.cs" />
+    <Compile Include="Models\ApplicantJobSearchVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -205,8 +205,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ApplicantJobApplication\Create.cshtml" />
     <Content Include="Views\ApplicantJobApplication\Delete.cshtml" />
@@ -228,11 +226,12 @@
     <Content Include="Views\CompanyJob\Details.cshtml" />
     <Content Include="Views\CompanyJob\Edit.cshtml" />
     <Content Include="Views\CompanyJob\Index.cshtml" />
-    <Content Include="Views\Jobs\Search.cshtml" />
-    <Content Include="Views\Jobs\ShowJobDetails.cshtml" />
+    <Content Include="Views\JobSearch\Search.cshtml" />
+    <Content Include="Views\JobSearch\ShowJobDetails.cshtml" />
     <Content Include="Views\Shared\_CreateJobSkills.cshtml" />
     <Content Include="Views\Shared\_CreateJobEducation.cshtml" />
-    <Content Include="Views\Shared\_DisplayJobDetails.cshtml" />
+    <Content Include="Views\Shared\_ApplicantJobDetails.cshtml" />
+    <Content Include="Views\Shared\_CompanyJobDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
