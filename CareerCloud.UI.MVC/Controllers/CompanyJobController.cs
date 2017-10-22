@@ -74,7 +74,8 @@ namespace CareerCloud.UI.MVC.Controllers
                     Company = companyId.Value,
                     JobName = job.CompanyJobDescriptions.FirstOrDefault().JobName,
                     JobDescription = job.CompanyJobDescriptions.FirstOrDefault().JobDescriptions,
-
+                    IsInactive = job.IsInactive,
+                    IsCompanyHidden = job.IsCompanyHidden,
                     JobSkills = job.CompanyJobSkills
                                 .Select(s => new CompanyJobSkillVM
                                 {
@@ -149,8 +150,7 @@ namespace CareerCloud.UI.MVC.Controllers
                 IsInactive = companyJobDetailsVM.IsInactive,
                 IsCompanyHidden = companyJobDetailsVM.IsCompanyHidden,
             };
-            isCreateSuccess &= PostToServer(new CompanyJobPoco[] { jobPoco }, "company/v1/job").IsSuccessStatusCode;
-
+            
             //Create Job Description info
             CompanyJobDescriptionPoco descPoco = new CompanyJobDescriptionPoco
             {
@@ -159,38 +159,47 @@ namespace CareerCloud.UI.MVC.Controllers
                 JobName = companyJobDetailsVM.JobName,
                 JobDescriptions = companyJobDetailsVM.JobDescription
             };
-            isCreateSuccess &= PostToServer(new CompanyJobDescriptionPoco[] { descPoco }, "company/v1/jobdescription").IsSuccessStatusCode;
 
             //Create Job Skills info
-            List<CompanyJobSkillPoco> skillPocos = new List<CompanyJobSkillPoco>();
-            foreach(var s in companyJobDetailsVM.JobSkills)
+            List<CompanyJobSkillPoco> skillPocos = null;
+            if (companyJobDetailsVM.JobSkills != null)
             {
-                skillPocos.Add(new CompanyJobSkillPoco
+                skillPocos = new List<CompanyJobSkillPoco>();
+                foreach (var s in companyJobDetailsVM.JobSkills)
                 {
-                    Id = Guid.NewGuid(),
-                    Job = jobPoco.Id,
-                    Skill = s.SkillName,
-                    SkillLevel = s.SelectedSkillLevel,
-                    Importance = int.Parse(s.SelectedImportance)
-                });
+                    skillPocos.Add(new CompanyJobSkillPoco
+                    {
+                        Id = Guid.NewGuid(),
+                        Job = jobPoco.Id,
+                        Skill = s.SkillName,
+                        SkillLevel = s.SelectedSkillLevel,
+                        Importance = int.Parse(s.SelectedImportance)
+                    });
+                }
             }
-            isCreateSuccess &= PostToServer(skillPocos.ToArray(), "company/v1/jobskill").IsSuccessStatusCode;
 
             //Create Job Education info
-            List<CompanyJobEducationPoco> educationPocos = new List<CompanyJobEducationPoco>();
-            foreach (var e in companyJobDetailsVM.JobEducation)
+            List<CompanyJobEducationPoco> educationPocos = null;
+            if (companyJobDetailsVM.JobEducation != null)
             {
-                educationPocos.Add(new CompanyJobEducationPoco
+                educationPocos = new List<CompanyJobEducationPoco>();
+                foreach (var e in companyJobDetailsVM.JobEducation)
                 {
-                    Id = Guid.NewGuid(),
-                    Job = jobPoco.Id,
-                    Major = e.Major,
-                    Importance = short.Parse(e.SelectedImportance)
-                });
+                    educationPocos.Add(new CompanyJobEducationPoco
+                    {
+                        Id = Guid.NewGuid(),
+                        Job = jobPoco.Id,
+                        Major = e.Major,
+                        Importance = short.Parse(e.SelectedImportance)
+                    });
+                }
             }
-            isCreateSuccess &= PostToServer(educationPocos.ToArray(), "company/v1/jobeducation").IsSuccessStatusCode;
 
-            
+            jobPoco.CompanyJobDescriptions = new List<CompanyJobDescriptionPoco> { descPoco };
+            jobPoco.CompanyJobSkills = skillPocos;
+            jobPoco.CompanyJobEducation = educationPocos;
+            isCreateSuccess = PostToServer(new CompanyJobPoco[] { jobPoco }, "company/v1/job").IsSuccessStatusCode;
+
             //Finally, check if the complete Job Creation process was successful
             if (isCreateSuccess)
             {

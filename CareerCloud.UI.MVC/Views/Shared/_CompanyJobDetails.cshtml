@@ -8,10 +8,10 @@
 </style>
 
 <h2>Job Details</h2>
-<h4>Company: @ViewBag.CompanyName</h4>
+<h4>Company: <span class="text-info">@ViewBag.CompanyName</span></h4>
 
 <div>
-    <h4>@Html.DisplayNameFor(model => model.JobName) : @Html.DisplayFor(model => model.JobName)</h4>
+    <h4>@Html.DisplayNameFor(model => model.JobName) : <span class="text-primary">@Html.DisplayFor(model => model.JobName)</span></h4>
     <hr />
     <dl class="dl-horizontal">
         <dd></dd>
@@ -52,6 +52,8 @@
         </dt>
 
         <dd>
+            @if (Model.JobSkills.Count() > 0)
+            {
             <div class="col-md-6">
                 <table class="table">
                     <tr>
@@ -71,6 +73,7 @@
                     }
                 </table>
             </div>
+            }
         </dd>
 
         <dt>
@@ -78,6 +81,8 @@
         </dt>
 
         <dd>
+            @if (Model.JobEducation.Count() > 0)
+            {
             <div class="col-md-5">
                 <table class="table">
                     <tr>
@@ -95,6 +100,7 @@
                     }
                 </table>
             </div>
+            }
         </dd>
 
     </dl>

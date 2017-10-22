@@ -41,15 +41,15 @@ function onAddItem(e) {
         console.log('Job Skill');
         newRowHtmlStr +=
             '<tr class="dynamic-row"> \
-                    <td><input class="input1" type="text" placeholder="Enter skill" /></td> \
+                    <td><input class="input1" type="text" placeholder="Enter skill" required/></td> \
                     <td> \
-                        <select class="input2"> \
+                        <select class="input2" required> \
                             <option value="" disabled selected>Select skill level</option>' +
             levelOptions +
             '</select> \
                     </td> \
                     <td> \
-                        <select class="input3"> \
+                        <select class="input3" required> \
                             <option value="" disabled selected>Select skill importance</option>' +
             importanceOptions +
             '</select> \
@@ -65,9 +65,9 @@ function onAddItem(e) {
     else if ($(e.target).parents("#jobEducation").length) {
         newRowHtmlStr +=
             '<tr class="dynamic-row"> \
-                    <td><input class="input1" type="text" placeholder="Enter major" /></td> \
+                    <td><input class="input1" type="text" placeholder="Enter major" required/></td> \
                     <td> \
-                        <select class="input2"> \
+                        <select class="input2" required> \
                             <option value="" disabled selected>Select importance</option>' +
             importanceOptions +
             '</select> \
