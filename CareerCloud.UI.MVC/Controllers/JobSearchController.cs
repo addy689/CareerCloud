@@ -14,14 +14,14 @@ namespace CareerCloud.UI.MVC.Controllers
     public class JobSearchController : BaseController
     {
         // GET: ApplyJobs
-        public ActionResult Search(Guid? applicantId, string search, string sortProperty, ListSortDirection? sortDirection)
+        public ActionResult Search(Guid? applicantId, string searchString, string sortProperty, ListSortDirection? sortDirection)
         {
             if (applicantId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ViewBag.ApplicantId = applicantId;
-
+            
             /* Generate sort order info for putting into hyperlinks
              */
             var tempVM = new ApplicantJobSearchVM();
@@ -94,11 +94,19 @@ namespace CareerCloud.UI.MVC.Controllers
                     });
                 }
 
-                var sortedViewModel = sortDirection == ListSortDirection.Ascending ?
-                                            viewModel.OrderBy(sortPropertySelector) :
-                                            viewModel.OrderByDescending(sortPropertySelector);
-                                            
-                return View(sortedViewModel);
+                //Search and sort results
+                var searchResult = viewModel as IEnumerable<ApplicantJobSearchVM>;
+                ViewBag.SearchString = "";
+                if (!string.IsNullOrWhiteSpace(searchString))
+                {
+                    searchResult = viewModel.Where(s => s.CompanyName.Contains(searchString) || s.JobTitle.Contains(searchString));
+                    ViewBag.SearchString = searchString;
+                }
+                searchResult = sortDirection == ListSortDirection.Ascending ?
+                                            searchResult.OrderBy(sortPropertySelector) :
+                                            searchResult.OrderByDescending(sortPropertySelector);
+                   
+                return View(searchResult);
             }
 
             return ErrorView(response);

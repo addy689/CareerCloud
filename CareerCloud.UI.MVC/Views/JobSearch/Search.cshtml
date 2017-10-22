@@ -9,9 +9,16 @@
 <h2>Search Jobs</h2>
 <br />
 
-@*<p>
-        @Html.ActionLink("Create New", "Create")
-    </p>*@
+@using (Html.BeginForm())
+{
+    <div class="form-group input-group col-md-4">
+        <input type="text" class="form-control" name="SearchString" placeholder="Enter a Job Title or CompanyName" value="@ViewBag.SearchString" />
+        <span class="input-group-btn">
+            <input type="submit" class="btn btn-primary" value="Search" placeholder="" />
+        </span>
+    </div>
+}
+
 <table class="table">
     <tr>
         <th>
@@ -20,16 +27,16 @@
             }
 
             @Html.ActionLink(propertyName,
-                                "Search",
-                                new { sortProperty = propertyName, sortDirection = ViewBag.JobTitleSortDirection, applicantId = ViewBag.ApplicantId })
+                         "Search",
+                         new { sortProperty = propertyName, sortDirection = ViewBag.JobTitleSortDirection, applicantId = ViewBag.ApplicantId })
         </th>
         <th>
             @{
                 propertyName = Html.DisplayNameFor(model => model.CompanyName).ToString();
             }
             @Html.ActionLink(propertyName,
-                                "Search",
-                                new { sortProperty = propertyName, sortDirection = ViewBag.CompanyNameSortDirection, applicantId = ViewBag.ApplicantId })
+                         "Search",
+                         new { sortProperty = propertyName, sortDirection = ViewBag.CompanyNameSortDirection, applicantId = ViewBag.ApplicantId })
 
         </th>
         <th>
@@ -37,8 +44,8 @@
                 propertyName = Html.DisplayNameFor(model => model.DatePosted).ToString();
             }
             @Html.ActionLink(propertyName,
-                                "Search",
-                                new { sortProperty = propertyName, sortDirection = ViewBag.DatePostedSortDirection, applicantId = ViewBag.ApplicantId })
+                                             "Search",
+                                             new { sortProperty = propertyName, sortDirection = ViewBag.DatePostedSortDirection, applicantId = ViewBag.ApplicantId })
 
         </th>
         <th></th>
