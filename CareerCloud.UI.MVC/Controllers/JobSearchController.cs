@@ -99,7 +99,7 @@ namespace CareerCloud.UI.MVC.Controllers
                 ViewBag.SearchString = "";
                 if (!string.IsNullOrWhiteSpace(searchString))
                 {
-                    searchResult = viewModel.Where(s => s.CompanyName.Contains(searchString) || s.JobTitle.Contains(searchString));
+                    searchResult = viewModel.Where(s => s.CompanyName.Contains(searchString) || (s.JobTitle!=null && s.JobTitle.Contains(searchString)));
                     ViewBag.SearchString = searchString;
                 }
                 searchResult = sortDirection == ListSortDirection.Ascending ?
