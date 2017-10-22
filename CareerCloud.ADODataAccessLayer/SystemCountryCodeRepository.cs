@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.ComponentModel;
 
 namespace CareerCloud.ADODataAccessLayer
 {
@@ -78,7 +79,17 @@ namespace CareerCloud.ADODataAccessLayer
             return result.Where(t => t != null).ToList();
         }
 
+        public IList<SystemCountryCodePoco> GetAllSorted<TKey>(params Tuple<Func<SystemCountryCodePoco, TKey>, ListSortDirection>[] orderProperties)
+        {
+            throw new NotImplementedException();
+        }
+
         public IList<SystemCountryCodePoco> GetList(Func<SystemCountryCodePoco, bool> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<SystemCountryCodePoco> GetSearchResults<TKey>(Func<SystemCountryCodePoco, bool> where, params Tuple<Func<SystemCountryCodePoco, TKey>, ListSortDirection>[] orderProperties)
         {
             throw new NotImplementedException();
         }

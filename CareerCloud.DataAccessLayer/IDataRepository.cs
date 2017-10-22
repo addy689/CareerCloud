@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.ComponentModel;
 
 namespace CareerCloud.DataAccessLayer
 {
@@ -13,5 +14,7 @@ namespace CareerCloud.DataAccessLayer
         void Update(params T[] items);
         void Remove(params T[] items);
         void CallStoredProc(string name, params Tuple<string, string>[] parameters);
+        IList<T> GetAllSorted<TKey>(params Tuple<Func<T, TKey>, ListSortDirection>[] orderProperties);
+        IList<T> GetSearchResults<TKey>(Func<T, bool> where, params Tuple<Func<T, TKey>, ListSortDirection>[] orderProperties);
     }
 }

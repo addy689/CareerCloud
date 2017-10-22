@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,8 +14,61 @@ namespace CareerCloud.UI.MVC.Controllers
     public class JobSearchController : BaseController
     {
         // GET: ApplyJobs
-        public ActionResult Search(Guid? applicantId)
+        public ActionResult Search(Guid? applicantId, string search, string sortProperty, ListSortDirection? sortDirection)
         {
+            if (applicantId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ViewBag.ApplicantId = applicantId;
+
+            /* Generate sort order info for putting into hyperlinks
+             */
+            var tempVM = new ApplicantJobSearchVM();
+
+            //set the defaults first
+            sortProperty = sortProperty ?? GetPropertyName(() => tempVM.DatePosted);
+            sortDirection = sortDirection ?? ListSortDirection.Descending;
+
+            //- Generate hyperlink info for View
+            //- Initialize and assign sort data
+            Func<ApplicantJobSearchVM, object> sortPropertySelector = null;
+            if (sortProperty == GetPropertyName(() => tempVM.DatePosted))
+            {
+                ViewBag.DatePostedSortDirection = sortDirection == ListSortDirection.Ascending ?
+                                                ListSortDirection.Descending : ListSortDirection.Ascending;
+
+                ViewBag.JobTitleSortDirection = ListSortDirection.Ascending;
+                ViewBag.CompanyNameSortDirection = ListSortDirection.Ascending;
+
+                sortPropertySelector = vm => vm.DatePosted;
+            }
+
+            else if (sortProperty == GetPropertyName(() => tempVM.JobTitle))
+            {
+                ViewBag.DatePostedSortDirection = ListSortDirection.Descending;
+
+                ViewBag.JobTitleSortDirection = sortDirection == ListSortDirection.Ascending ?
+                                                    ListSortDirection.Descending : ListSortDirection.Ascending;
+
+                ViewBag.CompanyNameSortDirection = ListSortDirection.Ascending;
+
+                sortPropertySelector = vm => vm.JobTitle;
+            }
+
+            else if (sortProperty == GetPropertyName(() => tempVM.CompanyName))
+            {
+                ViewBag.DatePostedSortDirection = ListSortDirection.Descending;
+
+                ViewBag.JobTitleSortDirection = ListSortDirection.Ascending;
+
+                ViewBag.CompanyNameSortDirection = sortDirection == ListSortDirection.Ascending ?
+                                                    ListSortDirection.Descending : ListSortDirection.Ascending;
+
+                sortPropertySelector = vm => vm.CompanyName;
+            }
+
+            //Now perform Search
             string requestUri = GetApiUriString("company/v1/job");
             var response = Client.GetAsync(requestUri).Result;
 
@@ -40,7 +94,11 @@ namespace CareerCloud.UI.MVC.Controllers
                     });
                 }
 
-                return View(viewModel);
+                var sortedViewModel = sortDirection == ListSortDirection.Ascending ?
+                                            viewModel.OrderBy(sortPropertySelector) :
+                                            viewModel.OrderByDescending(sortPropertySelector);
+                                            
+                return View(sortedViewModel);
             }
 
             return ErrorView(response);
@@ -81,6 +139,6 @@ namespace CareerCloud.UI.MVC.Controllers
 
             return ErrorView(response);
         }
-        
+
     }
 }

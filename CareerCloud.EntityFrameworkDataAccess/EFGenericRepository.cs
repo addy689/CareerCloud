@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -17,7 +18,7 @@ namespace CareerCloud.EntityFrameworkDataAccess
         public EFGenericRepository(bool createProxy = true)
         {
             _context = new CareerCloudContext(createProxy);
-        }    
+        }
 
         public void Add(params T[] items)
         {
@@ -88,6 +89,48 @@ namespace CareerCloud.EntityFrameworkDataAccess
             }
 
             _context.SaveChanges();
+        }
+
+        public IList<T> GetAllSorted<TKey>(params Tuple<Func<T, TKey>, ListSortDirection>[] orderProperties)
+        {
+            IList<T> result = GetAll();
+            return SortResultData(result, orderProperties).ToList();
+        }
+
+        public IList<T> GetSearchResults<TKey>(Func<T, bool> where, params Tuple<Func<T, TKey>, ListSortDirection>[] orderProperties)
+        {
+            IList<T> searchResult = GetList(where);
+            return SortResultData(searchResult, orderProperties).ToList();
+        }
+
+        /// <summary>
+        /// Helper method for sorting a collection
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="result"></param>
+        /// <param name="orderProperties"></param>
+        /// <returns></returns>
+        private IOrderedEnumerable<T> SortResultData<TKey>(IList<T> result, params Tuple<Func<T, TKey>, ListSortDirection>[] orderProperties)
+        {
+            IOrderedEnumerable<T> sortedResult = result as IOrderedEnumerable<T>;
+            foreach (var orderProperty in orderProperties)
+            {
+                Func<T, TKey> keySelector = orderProperty.Item1;
+                ListSortDirection order = orderProperty.Item2;
+
+                switch (order)
+                {
+                    case ListSortDirection.Ascending:
+                        sortedResult = sortedResult.ThenBy(keySelector);
+                        break;
+
+                    case ListSortDirection.Descending:
+                        sortedResult = sortedResult.ThenByDescending(keySelector);
+                        break;
+                }
+            }
+
+            return sortedResult;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using CareerCloud.DataAccessLayer;
@@ -35,6 +36,16 @@ namespace CareerCloud.BusinessLogicLayer
         public virtual List<TPoco> GetList(Func<TPoco, bool> where, params Expression<Func<TPoco, object>>[] navigationProperties)
         {
             return _repository.GetList(where, navigationProperties).ToList();
+        }
+
+        public virtual List<TPoco> GetAllSorted<TKey>(params Tuple<Func<TPoco, TKey>, ListSortDirection>[] orderProperties)
+        {
+            return _repository.GetAllSorted(orderProperties).ToList();
+        }
+
+        public virtual List<TPoco> GetSearchResults<TKey>(Func<TPoco, bool> where, params Tuple<Func<TPoco, TKey>, ListSortDirection>[] orderProperties)
+        {
+            return _repository.GetSearchResults(where, orderProperties).ToList();
         }
 
         public virtual void Add(TPoco[] pocos)

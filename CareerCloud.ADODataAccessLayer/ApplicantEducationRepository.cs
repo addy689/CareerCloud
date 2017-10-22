@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using System.Data.SqlClient;
+using System.ComponentModel;
 
 namespace CareerCloud.ADODataAccessLayer
 {
@@ -104,7 +105,17 @@ namespace CareerCloud.ADODataAccessLayer
             return result.Where(t => t != null).ToList();
         }
 
+        public IList<ApplicantEducationPoco> GetAllSorted<TKey>(params Tuple<Func<ApplicantEducationPoco, TKey>, ListSortDirection>[] orderProperties)
+        {
+            throw new NotImplementedException();
+        }
+
         public IList<ApplicantEducationPoco> GetList(Func<ApplicantEducationPoco, bool> where, params Expression<Func<ApplicantEducationPoco, object>>[] navigationProperties)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<ApplicantEducationPoco> GetSearchResults<TKey>(Func<ApplicantEducationPoco, bool> where, params Tuple<Func<ApplicantEducationPoco, TKey>, ListSortDirection>[] orderProperties)
         {
             throw new NotImplementedException();
         }
@@ -113,6 +124,11 @@ namespace CareerCloud.ADODataAccessLayer
         {
             IList<ApplicantEducationPoco> pocos = GetAll();
             return pocos.Where(where).FirstOrDefault();
+        }
+
+        public IList<ApplicantEducationPoco> GetSortedList<TKey>(params Func<ApplicantEducationPoco, TKey>[] orderProperties)
+        {
+            throw new NotImplementedException();
         }
 
         public void Remove(params ApplicantEducationPoco[] items)

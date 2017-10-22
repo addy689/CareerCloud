@@ -1,30 +1,51 @@
-﻿@model IEnumerable<CareerCloud.UI.MVC.Models.ApplicantJobSearchVM>
+﻿@using System.ComponentModel
+@using CareerCloud.UI.MVC.Models
+@model IEnumerable<ApplicantJobSearchVM>
 
 @{
     ViewBag.Title = "JobSearch";
 }
 
 <h2>Search Jobs</h2>
-<br/>
+<br />
 
 @*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.JobTitle)
+            @{
+                string propertyName = Html.DisplayNameFor(model => model.JobTitle).ToString();
+            }
+
+            @Html.ActionLink(propertyName,
+                                "Search",
+                                new { sortProperty = propertyName, sortDirection = ViewBag.JobTitleSortDirection, applicantId = ViewBag.ApplicantId })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CompanyName)
+            @{
+                propertyName = Html.DisplayNameFor(model => model.CompanyName).ToString();
+            }
+            @Html.ActionLink(propertyName,
+                                "Search",
+                                new { sortProperty = propertyName, sortDirection = ViewBag.CompanyNameSortDirection, applicantId = ViewBag.ApplicantId })
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DatePosted)
+            @{
+                propertyName = Html.DisplayNameFor(model => model.DatePosted).ToString();
+            }
+            @Html.ActionLink(propertyName,
+                                "Search",
+                                new { sortProperty = propertyName, sortDirection = ViewBag.DatePostedSortDirection, applicantId = ViewBag.ApplicantId })
+
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.JobTitle)
@@ -36,10 +57,10 @@
             @Html.DisplayFor(modelItem => item.DatePosted)
         </td>
         <td>
-            <b>@Html.ActionLink("Details", "ShowJobDetails", new { companyId = item.CompanyId, jobId = item.JobId, applicantId = item.ApplicantId })</b>
+            @Html.ActionLink("Details", "ShowJobDetails", new { companyId = item.CompanyId, jobId = item.JobId, applicantId = item.ApplicantId })
             @*@Html.ActionLink("Apply", "ApplyForJob", new { jobId = item.JobId, applicantId = item.ApplicantId })*@
         </td>
     </tr>
-}
+    }
 
 </table>

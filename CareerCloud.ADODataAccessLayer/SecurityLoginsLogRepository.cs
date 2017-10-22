@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.ComponentModel;
+
 namespace CareerCloud.ADODataAccessLayer
 {
     public class SecurityLoginsLogRepository : IDataRepository<SecurityLoginsLogPoco>
@@ -93,7 +95,17 @@ namespace CareerCloud.ADODataAccessLayer
             return result.Where(t => t != null).ToList();
         }
 
+        public IList<SecurityLoginsLogPoco> GetAllSorted<TKey>(params Tuple<Func<SecurityLoginsLogPoco, TKey>, ListSortDirection>[] orderProperties)
+        {
+            throw new NotImplementedException();
+        }
+
         public IList<SecurityLoginsLogPoco> GetList(Func<SecurityLoginsLogPoco, bool> where, params Expression<Func<SecurityLoginsLogPoco, object>>[] navigationProperties)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<SecurityLoginsLogPoco> GetSearchResults<TKey>(Func<SecurityLoginsLogPoco, bool> where, params Tuple<Func<SecurityLoginsLogPoco, TKey>, ListSortDirection>[] orderProperties)
         {
             throw new NotImplementedException();
         }

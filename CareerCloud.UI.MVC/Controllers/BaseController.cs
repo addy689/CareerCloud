@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Net.Http.Headers;
 using CareerCloud.Pocos;
+using System.Linq.Expressions;
 
 namespace CareerCloud.UI.MVC.Controllers
 {
@@ -61,6 +62,11 @@ namespace CareerCloud.UI.MVC.Controllers
             }
 
             return response;
+        }
+
+        protected string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
+        {
+            return (propertyExpression.Body as MemberExpression).Member.Name;
         }
     }
 }
